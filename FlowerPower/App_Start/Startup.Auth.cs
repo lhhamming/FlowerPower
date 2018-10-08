@@ -50,9 +50,9 @@ namespace FlowerPower
             //    clientId: "",
             //    clientSecret: "");
 
-            //app.UseTwitterAuthentication(
-            //   consumerKey: "",
-            //   consumerSecret: "");
+            app.UseTwitterAuthentication(
+               consumerKey: "YdDpNB5pnJCEi85tuD8lbLdLa",
+               consumerSecret: "Ct9cgUVaTBZbG6maxYc35e2FcNvfYcR9KSpYH0NO6Wv0PkkyZF");
 
             //app.UseFacebookAuthentication(
             //   appId: "",
