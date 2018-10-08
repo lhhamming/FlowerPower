@@ -1,7 +1,26 @@
-﻿
+﻿@model System.Collections.Generic.List<FlowerPower.Models.ApplicationUser>
 @{
-    ViewBag.Title = "Link";
+    ViewBag.Title = "Add Role to User";
 }
+<h2>Add a Role to an User</h2>
 
-<h2>Link</h2>
+<dl class="dl-horizontal">
+    <dt>Gebruikers</dt>
+    <dt>Rollen Toevoegen aan Gebruiker </dt>
+    <dd>
+        @using (Html.BeginForm("AddUserTo", "Role", FormMethod.Post))
+        {
+            <!-- Add a Role to an User -->
+            <p>Naam van de Gebruiker</p>@Html.DropDownList("UserName", (IEnumerable<SelectListItem>)ViewBag.Users, "Selecteer een Gebruiker")
+            <p>Naam van de Role</p>@Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Selecteer een Role");
+            <input type="submit" value="Add User to Role" />
+        }
+        <br />
+        <strong>
+            @ViewBag.Succes
+        </strong>
+    </dd>
 
+
+
+</dl>
