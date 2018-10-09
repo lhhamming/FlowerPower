@@ -516,7 +516,7 @@
           <End Role="artikel" Type="Self.artikel" Multiplicity="*" />
           <End Role="bestelling" Type="Self.bestelling" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="DB_A3D6D6_FlowerPowerLuukEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="DB_A3D6D6_FlowerPowerLuukEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="artikel" EntityType="Self.artikel" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
@@ -567,7 +567,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="DB_A3D6D6_FlowerPowerLuukModelStoreContainer" CdmEntityContainer="DB_A3D6D6_FlowerPowerLuukEntities">
+        <EntityContainerMapping StorageEntityContainer="DB_A3D6D6_FlowerPowerLuukModelStoreContainer" CdmEntityContainer="DB_A3D6D6_FlowerPowerLuukEntities1">
           <EntitySetMapping Name="artikel">
             <EntityTypeMapping TypeName="DB_A3D6D6_FlowerPowerLuukModel.artikel">
               <MappingFragment StoreEntitySet="artikel">
