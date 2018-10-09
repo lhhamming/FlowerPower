@@ -13,10 +13,10 @@ namespace FlowerPower.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class DB_A3D6D6_FlowerPowerLuukEntities : DbContext
+    public partial class DB_A3D6D6_FlowerPowerLuukEntities1 : DbContext
     {
-        public DB_A3D6D6_FlowerPowerLuukEntities()
-            : base("name=DB_A3D6D6_FlowerPowerLuukEntities")
+        public DB_A3D6D6_FlowerPowerLuukEntities1()
+            : base("name=DB_A3D6D6_FlowerPowerLuukEntities1")
         {
         }
     
