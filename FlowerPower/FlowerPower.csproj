@@ -208,10 +208,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\bestellingsController.cs" />
+    <Compile Include="Controllers\artikelsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\PDFController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -342,15 +341,14 @@
     <Content Include="Views\Roles\Index.cshtml" />
     <Content Include="Views\Roles\Create.cshtml" />
     <Content Include="Views\Roles\Link.cshtml" />
-    <Content Include="Views\bestellings\Create.cshtml" />
-    <Content Include="Views\bestellings\Delete.cshtml" />
-    <Content Include="Views\bestellings\Details.cshtml" />
-    <Content Include="Views\bestellings\Edit.cshtml" />
-    <Content Include="Views\bestellings\Index.cshtml" />
+    <Content Include="Views\artikels\Create.cshtml" />
+    <Content Include="Views\artikels\Delete.cshtml" />
+    <Content Include="Views\artikels\Details.cshtml" />
+    <Content Include="Views\artikels\Edit.cshtml" />
+    <Content Include="Views\artikels\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\PDF\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
