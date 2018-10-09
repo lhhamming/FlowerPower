@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ee2511282a5c4019b09518952fc0c4b8" Name="Diagram1">
+        <EntityTypeShape EntityType="DB_A3D6D6_FlowerPowerLuukModel.artikel" Width="1.5" PointX="0.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A3D6D6_FlowerPowerLuukModel.AspNetRoles" Width="1.5" PointX="1.5" PointY="21" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A3D6D6_FlowerPowerLuukModel.AspNetUsers" Width="1.5" PointX="1.5" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A3D6D6_FlowerPowerLuukModel.bestelling" Width="1.5" PointX="3" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A3D6D6_FlowerPowerLuukModel.klant" Width="1.5" PointX="0.75" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A3D6D6_FlowerPowerLuukModel.medewerker" Width="1.5" PointX="6" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A3D6D6_FlowerPowerLuukModel.status" Width="1.5" PointX="0.75" PointY="23.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A3D6D6_FlowerPowerLuukModel.vestiging" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
+        <AssociationConnector Association="DB_A3D6D6_FlowerPowerLuukModel.AspNetUser_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A3D6D6_FlowerPowerLuukModel.AspNetUserID" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A3D6D6_FlowerPowerLuukModel.bestelling_klant_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A3D6D6_FlowerPowerLuukModel.bestelling_medewerker_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A3D6D6_FlowerPowerLuukModel.bestelling_status_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A3D6D6_FlowerPowerLuukModel.bestelling_vestiging_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A3D6D6_FlowerPowerLuukModel.medewerker_vestiging_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A3D6D6_FlowerPowerLuukModel.AspNetUserRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A3D6D6_FlowerPowerLuukModel.bestelregel" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

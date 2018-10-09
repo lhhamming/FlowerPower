@@ -46,23 +46,23 @@ namespace FlowerPower
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
 
             // Uncomment the following lines to enable logging in with third party login providers
-            //app.UseMicrosoftAccountAuthentication(
-            //    clientId: "",
-            //    clientSecret: "");
+            app.UseMicrosoftAccountAuthentication(
+                clientId: "f3cc21a0-4bf6-4edf-9f78-b390d09ffac1",
+                clientSecret: "swoCLZ3;-;ffznBGPS1653:");
 
-            //app.UseTwitterAuthentication(
-            //   consumerKey: "",
-            //   consumerSecret: "");
+            app.UseTwitterAuthentication(
+               consumerKey: "YdDpNB5pnJCEi85tuD8lbLdLa",
+               consumerSecret: "Ct9cgUVaTBZbG6maxYc35e2FcNvfYcR9KSpYH0NO6Wv0PkkyZF");
 
             //app.UseFacebookAuthentication(
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "376945023259-nugsakphvf18k6mpfeenp5n4spd09h5v.apps.googleusercontent.com",
+                ClientSecret = "zq_HUuU7eUgv_MgMVxvxXUVP"
+            });
         }
     }
 }
