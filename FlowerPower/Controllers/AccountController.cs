@@ -12,11 +12,14 @@ using FlowerPower.Models;
 
 namespace FlowerPower.Controllers
 {
+    
     [Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+
+        private DB_A3D6D6_FlowerPowerLuukEntities1 db = new DB_A3D6D6_FlowerPowerLuukEntities1();
 
         public AccountController()
         {
@@ -174,6 +177,7 @@ namespace FlowerPower.Controllers
 
         public ActionResult RegisterMedewerker()
         {
+            ViewBag.Vestigingen = new SelectList(db.vestiging, "vestigingsid", "vestegingsnaam");
             return View();
         }
 
@@ -186,7 +190,7 @@ namespace FlowerPower.Controllers
             {
                 //Alle informatie voor het maken van een medewerker
                 var user = new ApplicationUser { UserName = model.FirstName += model.LastName };
-                var Medewerker = new medewerker { voorletters = model.FirstName, tussenvoegsels = model.TussenVoegsel, achternaam = model.LastName, vestigingid = model.VestID, actief = false };
+                var Medewerker = new medewerker { voorletters = model.FirstName, tussenvoegsels = model.TussenVoegsel, achternaam = model.LastName, vestigingid = model.VestID, actief = false};
              
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -202,7 +206,6 @@ namespace FlowerPower.Controllers
                     {
                         db.medewerker.Add(Medewerker);
                         db.SaveChanges();
-
                     }
                         return RedirectToAction("Index", "Home");
                 }

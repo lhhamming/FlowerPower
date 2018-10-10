@@ -38,7 +38,7 @@ namespace FlowerPower
                 user.UserName = "Admin";
                 user.Email = "luuk.hamming@gmail.com";
 
-                string userPWD = "Va9n2mc3wEbv";
+                string userPWD = "AdminPw1!LHH";
 
                 var chkUser = UserManager.Create(user, userPWD);
 

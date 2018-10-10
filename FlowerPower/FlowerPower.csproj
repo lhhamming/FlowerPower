@@ -353,6 +353,7 @@
     <Content Include="Views\bestelling\Edit.cshtml" />
     <Content Include="Views\bestelling\Index.cshtml" />
     <Content Include="Views\Manage\ChangeLastname.cshtml" />
+    <Content Include="Views\Account\RegisterMedewerker.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

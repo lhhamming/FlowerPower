@@ -19,16 +19,7 @@
                 </button>
                 @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            @if (User.Identity.IsAuthenticated)
-            {
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("About", "About", "Home")</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    </ul>
-                </div>
-            }
+
             @if (User.IsInRole("Manager"))
             {
                 <div class="navbar-collapse collapse">
@@ -36,10 +27,13 @@
                         <li>@Html.ActionLink("Home", "Index", "Home")</li>
                         <li>@Html.ActionLink("About", "About", "Home")</li>
                         <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                        <li>@Html.ActionLink("Register a medewerker", "RegisterMedewerker", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
                     </ul>
+                @Html.Partial("_LoginPartial")
                 </div>
             }
-            @Html.Partial("_LoginPartial")
+
+
         </div>
     </div>
     <div class="container body-content">
