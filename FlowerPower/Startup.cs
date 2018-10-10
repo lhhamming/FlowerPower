@@ -54,14 +54,14 @@ namespace FlowerPower
             if (!roleManager.RoleExists("Manager"))
             {
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-                role.Name = "HotelManager";
+                role.Name = "Manager";
                 roleManager.Create(role);
 
             }
             if (!roleManager.RoleExists("Medewerker"))
             {
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-                role.Name = "HotelManager";
+                role.Name = "Medewerker";
                 roleManager.Create(role);
 
             }
