@@ -17,16 +17,16 @@ namespace FlowerPower.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public artikel()
         {
-            this.bestelling = new HashSet<bestelling>();
+            this.bestellings = new HashSet<bestelling>();
         }
     
         public int artikelid { get; set; }
         public string artikelnaam { get; set; }
-        public Nullable<long> prijs { get; set; }
-        public Nullable<bool> actief { get; set; }
+        public Nullable<decimal> prijs { get; set; }
+        public bool actief { get; set; }
         public string image { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<bestelling> bestelling { get; set; }
+        public virtual ICollection<bestelling> bestellings { get; set; }
     }
 }
