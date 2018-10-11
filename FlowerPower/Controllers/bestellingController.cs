@@ -7,22 +7,34 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using FlowerPower.Models;
+using Microsoft.AspNet.Identity;
 
 namespace FlowerPower.Controllers
 {
-    [Authorize]
-    public class bestellingsController : Controller
+    public class bestellingController : Controller
     {
         private DB_A3D6D6_FlowerPowerLuukEntities1 db = new DB_A3D6D6_FlowerPowerLuukEntities1();
 
-        // GET: bestellings
+        private List<bestelling> BestellingenPerVestiging = new List<bestelling>();
+
+        // GET: bestelling
         public ActionResult Index()
         {
-            var bestelling = db.bestelling.Include(b => b.klant).Include(b => b.medewerker).Include(b => b.status).Include(b => b.vestiging);
-            return View(bestelling.ToList());
+            var user = User.Identity.GetUserId();
+            var CurrentMedewerker = db.medewerker.Where(m => m.AspNetUserID == user);
+
+            foreach (var Bestelling in db.bestelling.ToList())
+            {
+                if(Bestelling.vestiging.vestigingsid == CurrentMedewerker.First().vestigingid)
+                {
+                    BestellingenPerVestiging.Add(Bestelling);
+                }
+            }
+
+            return View(BestellingenPerVestiging);
         }
 
-        // GET: bestellings/Details/5
+        // GET: bestelling/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -37,7 +49,7 @@ namespace FlowerPower.Controllers
             return View(bestelling);
         }
 
-        // GET: bestellings/Create
+        // GET: bestelling/Create
         public ActionResult Create()
         {
             ViewBag.klantid = new SelectList(db.klant, "klantid", "voorletters");
@@ -47,7 +59,7 @@ namespace FlowerPower.Controllers
             return View();
         }
 
-        // POST: bestellings/Create
+        // POST: bestelling/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -68,7 +80,7 @@ namespace FlowerPower.Controllers
             return View(bestelling);
         }
 
-        // GET: bestellings/Edit/5
+        // GET: bestelling/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -87,7 +99,7 @@ namespace FlowerPower.Controllers
             return View(bestelling);
         }
 
-        // POST: bestellings/Edit/5
+        // POST: bestelling/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -107,7 +119,7 @@ namespace FlowerPower.Controllers
             return View(bestelling);
         }
 
-        // GET: bestellings/Delete/5
+        // GET: bestelling/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -122,7 +134,7 @@ namespace FlowerPower.Controllers
             return View(bestelling);
         }
 
-        // POST: bestellings/Delete/5
+        // POST: bestelling/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

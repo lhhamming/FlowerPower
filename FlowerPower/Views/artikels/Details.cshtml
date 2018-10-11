@@ -1,0 +1,50 @@
+﻿@model FlowerPower.Models.artikel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>artikel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.artikelnaam)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.artikelnaam)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.prijs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.prijs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.actief)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.actief)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.image)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.image)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.artikelid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

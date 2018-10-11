@@ -83,4 +83,10 @@ namespace FlowerPower.Models
         public string SelectedProvider { get; set; }
         public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
     }
+    public class ChangeLastNameModel
+    {
+        [Required]
+        [Display(Name = "Achternaam")]
+        public string NewLastname { get; set; }
+    }
 }

@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace FlowerPower.Controllers
 {
+    //[Authorize(Roles = "Applicatiebeheerder")]
     public class RolesController : Controller
     {
         ApplicationDbContext context = new ApplicationDbContext();
@@ -17,11 +18,13 @@ namespace FlowerPower.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                if (!isAdminUser())
+                if (true)
                 {
                     //Als de ingelogde gebruiker geen administrator is dan sturen we deze gebruiker terug naar de
                     //Index pagina. Dit doen we zodat het lijkt als of hier niks te zien is
-                    return RedirectToAction("Index", "Home");
+                    var Roles = context.Roles.ToList();
+                    return View(Roles);
+                    //return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -32,7 +35,6 @@ namespace FlowerPower.Controllers
             }
             return View();
         }
-
         public ActionResult Create()
         {
             return View();
@@ -53,7 +55,17 @@ namespace FlowerPower.Controllers
             catch (Exception)
             {
                 return View();
+
+
             }
+        }
+
+        public ActionResult Remove()
+        {
+            var rolelist = context.Roles.OrderBy(r => r.Name).ToList().Select(rr =>
+            new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+            ViewBag.Roles = rolelist;
+            return View();
         }
 
         public ActionResult Link()
@@ -124,6 +136,7 @@ namespace FlowerPower.Controllers
             }
         }
 
+
         public Boolean isAdminUser()
         {
             if (User.Identity.IsAuthenticated)
@@ -132,7 +145,7 @@ namespace FlowerPower.Controllers
                 var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
                 var s = UserManager.GetRoles(user.GetUserId());
                 if (s[0].ToString() == "Applicatiebeheerder")
-                {   
+                {
                     return true;
                 }
                 else
