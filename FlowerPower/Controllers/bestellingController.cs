@@ -21,9 +21,9 @@ namespace FlowerPower.Controllers
         public ActionResult Index()
         {
             var user = User.Identity.GetUserId();
-            var CurrentMedewerker = db.medewerker.Where(m => m.AspNetUserID == user);
+            var CurrentMedewerker = db.medewerkers.Where(m => m.AspNetUserID == user);
 
-            foreach (var Bestelling in db.bestelling.ToList())
+            foreach (var Bestelling in db.bestellings.ToList())
             {
                 if(Bestelling.vestiging.vestigingsid == CurrentMedewerker.First().vestigingid)
                 {
@@ -41,7 +41,7 @@ namespace FlowerPower.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            bestelling bestelling = db.bestelling.Find(id);
+            bestelling bestelling = db.bestellings.Find(id);
             if (bestelling == null)
             {
                 return HttpNotFound();
@@ -52,10 +52,10 @@ namespace FlowerPower.Controllers
         // GET: bestelling/Create
         public ActionResult Create()
         {
-            ViewBag.klantid = new SelectList(db.klant, "klantid", "voorletters");
-            ViewBag.medewerkerid = new SelectList(db.medewerker, "medewerkerid", "voorletters");
+            ViewBag.klantid = new SelectList(db.klants, "klantid", "voorletters");
+            ViewBag.medewerkerid = new SelectList(db.medewerkers, "medewerkerid", "voorletters");
             ViewBag.statusid = new SelectList(db.status, "statusid", "status1");
-            ViewBag.vestigingid = new SelectList(db.vestiging, "vestigingsid", "vestigingsnaam");
+            ViewBag.vestigingid = new SelectList(db.vestigings, "vestigingsid", "vestigingsnaam");
             return View();
         }
 
@@ -68,15 +68,15 @@ namespace FlowerPower.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.bestelling.Add(bestelling);
+                db.bestellings.Add(bestelling);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.klantid = new SelectList(db.klant, "klantid", "voorletters", bestelling.klantid);
-            ViewBag.medewerkerid = new SelectList(db.medewerker, "medewerkerid", "voorletters", bestelling.medewerkerid);
+            ViewBag.klantid = new SelectList(db.klants, "klantid", "voorletters", bestelling.klantid);
+            ViewBag.medewerkerid = new SelectList(db.medewerkers, "medewerkerid", "voorletters", bestelling.medewerkerid);
             ViewBag.statusid = new SelectList(db.status, "statusid", "status1", bestelling.statusid);
-            ViewBag.vestigingid = new SelectList(db.vestiging, "vestigingsid", "vestigingsnaam", bestelling.vestigingid);
+            ViewBag.vestigingid = new SelectList(db.vestigings, "vestigingsid", "vestigingsnaam", bestelling.vestigingid);
             return View(bestelling);
         }
 
@@ -87,15 +87,15 @@ namespace FlowerPower.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            bestelling bestelling = db.bestelling.Find(id);
+            bestelling bestelling = db.bestellings.Find(id);
             if (bestelling == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.klantid = new SelectList(db.klant, "klantid", "voorletters", bestelling.klantid);
-            ViewBag.medewerkerid = new SelectList(db.medewerker, "medewerkerid", "voorletters", bestelling.medewerkerid);
+            ViewBag.klantid = new SelectList(db.klants, "klantid", "voorletters", bestelling.klantid);
+            ViewBag.medewerkerid = new SelectList(db.medewerkers, "medewerkerid", "voorletters", bestelling.medewerkerid);
             ViewBag.statusid = new SelectList(db.status, "statusid", "status1", bestelling.statusid);
-            ViewBag.vestigingid = new SelectList(db.vestiging, "vestigingsid", "vestigingsnaam", bestelling.vestigingid);
+            ViewBag.vestigingid = new SelectList(db.vestigings, "vestigingsid", "vestigingsnaam", bestelling.vestigingid);
             return View(bestelling);
         }
 
@@ -112,10 +112,10 @@ namespace FlowerPower.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.klantid = new SelectList(db.klant, "klantid", "voorletters", bestelling.klantid);
-            ViewBag.medewerkerid = new SelectList(db.medewerker, "medewerkerid", "voorletters", bestelling.medewerkerid);
+            ViewBag.klantid = new SelectList(db.klants, "klantid", "voorletters", bestelling.klantid);
+            ViewBag.medewerkerid = new SelectList(db.medewerkers, "medewerkerid", "voorletters", bestelling.medewerkerid);
             ViewBag.statusid = new SelectList(db.status, "statusid", "status1", bestelling.statusid);
-            ViewBag.vestigingid = new SelectList(db.vestiging, "vestigingsid", "vestigingsnaam", bestelling.vestigingid);
+            ViewBag.vestigingid = new SelectList(db.vestigings, "vestigingsid", "vestigingsnaam", bestelling.vestigingid);
             return View(bestelling);
         }
 
@@ -126,7 +126,7 @@ namespace FlowerPower.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            bestelling bestelling = db.bestelling.Find(id);
+            bestelling bestelling = db.bestellings.Find(id);
             if (bestelling == null)
             {
                 return HttpNotFound();
@@ -139,8 +139,8 @@ namespace FlowerPower.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            bestelling bestelling = db.bestelling.Find(id);
-            db.bestelling.Remove(bestelling);
+            bestelling bestelling = db.bestellings.Find(id);
+            db.bestellings.Remove(bestelling);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

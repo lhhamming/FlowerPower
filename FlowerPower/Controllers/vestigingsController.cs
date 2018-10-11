@@ -17,7 +17,7 @@ namespace FlowerPower.Controllers
         // GET: vestigings
         public ActionResult Index()
         {
-            return View(db.vestiging.ToList());
+            return View(db.vestigings.ToList());
         }
 
         // GET: vestigings/Details/5
@@ -27,7 +27,7 @@ namespace FlowerPower.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            vestiging vestiging = db.vestiging.Find(id);
+            vestiging vestiging = db.vestigings.Find(id);
             if (vestiging == null)
             {
                 return HttpNotFound();
@@ -50,7 +50,7 @@ namespace FlowerPower.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.vestiging.Add(vestiging);
+                db.vestigings.Add(vestiging);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -65,7 +65,7 @@ namespace FlowerPower.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            vestiging vestiging = db.vestiging.Find(id);
+            vestiging vestiging = db.vestigings.Find(id);
             if (vestiging == null)
             {
                 return HttpNotFound();
@@ -96,7 +96,7 @@ namespace FlowerPower.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            vestiging vestiging = db.vestiging.Find(id);
+            vestiging vestiging = db.vestigings.Find(id);
             if (vestiging == null)
             {
                 return HttpNotFound();
@@ -109,8 +109,8 @@ namespace FlowerPower.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            vestiging vestiging = db.vestiging.Find(id);
-            db.vestiging.Remove(vestiging);
+            vestiging vestiging = db.vestigings.Find(id);
+            db.vestigings.Remove(vestiging);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
