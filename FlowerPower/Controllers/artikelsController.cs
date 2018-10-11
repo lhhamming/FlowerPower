@@ -18,7 +18,7 @@ namespace FlowerPower.Controllers
         // GET: artikels
         public ActionResult Index()
         {
-            return View(db.artikel.ToList());
+            return View(db.artikels.ToList());
         }
 
         // GET: artikels/Details/5
@@ -28,7 +28,7 @@ namespace FlowerPower.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            artikel artikel = db.artikel.Find(id);
+            artikel artikel = db.artikels.Find(id);
             if (artikel == null)
             {
                 return HttpNotFound();
@@ -70,7 +70,7 @@ namespace FlowerPower.Controllers
 
             if (ModelState.IsValid)
             {
-                db.artikel.Add(artikel);
+                db.artikels.Add(artikel);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -85,7 +85,7 @@ namespace FlowerPower.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            artikel artikel = db.artikel.Find(id);
+            artikel artikel = db.artikels.Find(id);
             if (artikel == null)
             {
                 return HttpNotFound();
@@ -116,7 +116,7 @@ namespace FlowerPower.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            artikel artikel = db.artikel.Find(id);
+            artikel artikel = db.artikels.Find(id);
             if (artikel == null)
             {
                 return HttpNotFound();
@@ -129,8 +129,8 @@ namespace FlowerPower.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            artikel artikel = db.artikel.Find(id);
-            db.artikel.Remove(artikel);
+            artikel artikel = db.artikels.Find(id);
+            db.artikels.Remove(artikel);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

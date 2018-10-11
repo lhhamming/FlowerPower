@@ -18,7 +18,7 @@ namespace FlowerPower.Controllers
         public ActionResult Index()
         {
 
-            var MederwerkerList = db.medewerker.Where(m => m.vestigingid == 0);
+            var MederwerkerList = db.medewerkers.Where(m => m.vestigingid == 0);
 
 
 
@@ -32,7 +32,7 @@ namespace FlowerPower.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            medewerker medewerker = db.medewerker.Find(id);
+            medewerker medewerker = db.medewerkers.Find(id);
             if (medewerker == null)
             {
                 return HttpNotFound();

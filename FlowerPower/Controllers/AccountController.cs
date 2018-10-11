@@ -177,7 +177,7 @@ namespace FlowerPower.Controllers
 
         public ActionResult RegisterMedewerker()
         {
-            ViewBag.Vestigingen = new SelectList(db.vestiging, "vestigingsid", "vestigingsnaam");
+            ViewBag.Vestigingen = new SelectList(db.vestigings, "vestigingsid", "vestigingsnaam");
             return View();
         }
 
@@ -204,7 +204,7 @@ namespace FlowerPower.Controllers
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     using (DB_A3D6D6_FlowerPowerLuukEntities1 db = new DB_A3D6D6_FlowerPowerLuukEntities1())
                     {
-                        db.medewerker.Add(Medewerker);
+                        db.medewerkers.Add(Medewerker);
                         db.SaveChanges();
                     }
                         return RedirectToAction("Index", "Home");
