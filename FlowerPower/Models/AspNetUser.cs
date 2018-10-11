@@ -12,14 +12,14 @@ namespace FlowerPower.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class AspNetUsers
+    public partial class AspNetUser
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public AspNetUsers()
+        public AspNetUser()
         {
-            this.klant = new HashSet<klant>();
-            this.medewerker = new HashSet<medewerker>();
-            this.AspNetRoles = new HashSet<AspNetRoles>();
+            this.klants = new HashSet<klant>();
+            this.medewerkers = new HashSet<medewerker>();
+            this.AspNetRoles = new HashSet<AspNetRole>();
         }
     
         public string Id { get; set; }
@@ -36,10 +36,10 @@ namespace FlowerPower.Models
         public string UserName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<klant> klant { get; set; }
+        public virtual ICollection<klant> klants { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<medewerker> medewerker { get; set; }
+        public virtual ICollection<medewerker> medewerkers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AspNetRoles> AspNetRoles { get; set; }
+        public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
     }
 }

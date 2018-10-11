@@ -1,0 +1,53 @@
+﻿@model IEnumerable<FlowerPower.Models.medewerker>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.voorletters)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.tussenvoegsels)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.achternaam)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.voorletters)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.tussenvoegsels)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.achternaam)
+                        </td>
+                        <td>
+                            @*@Html.ActionLink("Reserveer", "Reserveer", new { id = item.lodgeID, startDate = Request.Params["startDate"], endDate = Request.Params["endDate"] })*@
+                            @*<button class="btn btn-info" onclick="location.href='@Url.Action("Reserveer", "Reserveer", new { id = item.lodgeID, startDate = Request.Params["startDate"], endDate = Request.Params["endDate"] })';return false;">Register</button>*@
+                            @*<button class="btn btn-info">Info</button>*@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</body>
+</html>
