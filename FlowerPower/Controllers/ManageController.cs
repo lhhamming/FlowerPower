@@ -114,7 +114,7 @@ namespace FlowerPower.Controllers
             {
                 
                 var userid = User.Identity.GetUserId();
-                medewerker user = db.medewerker.Find(userid);
+                medewerker user = db.medewerkers.Find(userid);
                 user.achternaam = model.NewLastname;
                 db.SaveChanges();
                 return RedirectToAction("Index");
