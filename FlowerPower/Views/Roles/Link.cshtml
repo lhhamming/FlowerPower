@@ -8,7 +8,7 @@
     <dt>Gebruikers</dt>
     <dt>Rollen Toevoegen aan Gebruiker </dt>
     <dd>
-        @using (Html.BeginForm("AddUserTo", "Role", FormMethod.Post))
+        @using (Html.BeginForm("AddUserTo", "Roles", FormMethod.Post))
         {
             <!-- Add a Role to an User -->
             <p>Naam van de Gebruiker</p>@Html.DropDownList("UserName", (IEnumerable<SelectListItem>)ViewBag.Users, "Selecteer een Gebruiker")

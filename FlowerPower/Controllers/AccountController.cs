@@ -12,11 +12,14 @@ using FlowerPower.Models;
 
 namespace FlowerPower.Controllers
 {
+    
     [Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+
+        private DB_A3D6D6_FlowerPowerLuukEntities1 db = new DB_A3D6D6_FlowerPowerLuukEntities1();
 
         public AccountController()
         {
@@ -172,6 +175,46 @@ namespace FlowerPower.Controllers
             return View(model);
         }
 
+        public ActionResult RegisterMedewerker()
+        {
+            ViewBag.Vestigingen = new SelectList(db.vestiging, "vestigingsid", "vestegingsnaam");
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterMedewerker(RegisterMedewerkerViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //Alle informatie voor het maken van een medewerker
+                var user = new ApplicationUser { UserName = model.FirstName += model.LastName };
+                var Medewerker = new medewerker { voorletters = model.FirstName, tussenvoegsels = model.TussenVoegsel, achternaam = model.LastName, vestigingid = model.VestID, actief = false};
+             
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    using (DB_A3D6D6_FlowerPowerLuukEntities1 db = new DB_A3D6D6_FlowerPowerLuukEntities1())
+                    {
+                        db.medewerker.Add(Medewerker);
+                        db.SaveChanges();
+                    }
+                        return RedirectToAction("Index", "Home");
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]

@@ -13,6 +13,7 @@ namespace FlowerPower.Controllers
     [Authorize]
     public class ManageController : Controller
     {
+        private DB_A3D6D6_FlowerPowerLuukEntities1 db = new DB_A3D6D6_FlowerPowerLuukEntities1();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -97,6 +98,28 @@ namespace FlowerPower.Controllers
                 message = ManageMessageId.Error;
             }
             return RedirectToAction("ManageLogins", new { Message = message });
+        }
+
+        public ActionResult ChangeLastname()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeLastname(ChangeLastNameModel model)
+        {
+           
+            if (ModelState.IsValid)
+            {
+                
+                var userid = User.Identity.GetUserId();
+                medewerker user = db.medewerker.Find(userid);
+                user.achternaam = model.NewLastname;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(model);
         }
 
         //
