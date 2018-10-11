@@ -17,11 +17,10 @@ namespace FlowerPower.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public bestelling()
         {
-            this.artikels = new HashSet<artikel>();
+            this.bestelregels = new HashSet<bestelregel>();
         }
     
         public int bestellingid { get; set; }
-        public Nullable<int> aantal { get; set; }
         public int statusid { get; set; }
         public Nullable<System.DateTime> besteldatum { get; set; }
         public Nullable<System.DateTime> ophaaldatum { get; set; }
@@ -36,6 +35,6 @@ namespace FlowerPower.Models
         public virtual status status { get; set; }
         public virtual vestiging vestiging { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<artikel> artikels { get; set; }
+        public virtual ICollection<bestelregel> bestelregels { get; set; }
     }
 }

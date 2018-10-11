@@ -62,7 +62,6 @@
             <PropertyRef Name="bestellingid" />
           </Key>
           <Property Name="bestellingid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="aantal" Type="int" />
           <Property Name="statusid" Type="int" Nullable="false" />
           <Property Name="besteldatum" Type="datetime" />
           <Property Name="ophaaldatum" Type="datetime" />
@@ -79,6 +78,7 @@
           </Key>
           <Property Name="artikel_artikelid" Type="int" Nullable="false" />
           <Property Name="bestelling_bestellingid" Type="int" Nullable="false" />
+          <Property Name="aantal" Type="int" />
         </EntityType>
         <EntityType Name="klant">
           <Key>
@@ -104,6 +104,7 @@
           <Property Name="achternaam" Type="varchar" MaxLength="50" />
           <Property Name="vestigingid" Type="int" Nullable="false" />
           <Property Name="actief" Type="bit" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="AspNetUserID" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="status">
@@ -338,7 +339,7 @@
           <Property Name="prijs" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="actief" Type="Boolean" Nullable="false" />
           <Property Name="image" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="bestellings" Relationship="Self.bestelregel" FromRole="artikel" ToRole="bestelling" />
+          <NavigationProperty Name="bestelregels" Relationship="Self.FK_bestelregel_artikel" FromRole="artikel" ToRole="bestelregel" />
         </EntityType>
         <EntityType Name="AspNetRole">
           <Key>
@@ -373,7 +374,6 @@
             <PropertyRef Name="bestellingid" />
           </Key>
           <Property Name="bestellingid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="aantal" Type="Int32" />
           <Property Name="statusid" Type="Int32" Nullable="false" />
           <Property Name="besteldatum" Type="DateTime" Precision="3" />
           <Property Name="ophaaldatum" Type="DateTime" Precision="3" />
@@ -386,7 +386,18 @@
           <NavigationProperty Name="medewerker" Relationship="Self.FK_bestelling_medewerker_fk" FromRole="bestelling" ToRole="medewerker" />
           <NavigationProperty Name="status" Relationship="Self.FK_bestelling_status_fk" FromRole="bestelling" ToRole="status" />
           <NavigationProperty Name="vestiging" Relationship="Self.FK_bestelling_vestiging_fk" FromRole="bestelling" ToRole="vestiging" />
-          <NavigationProperty Name="artikels" Relationship="Self.bestelregel" FromRole="bestelling" ToRole="artikel" />
+          <NavigationProperty Name="bestelregels" Relationship="Self.FK_bestelregel_bestelling" FromRole="bestelling" ToRole="bestelregel" />
+        </EntityType>
+        <EntityType Name="bestelregel">
+          <Key>
+            <PropertyRef Name="artikel_artikelid" />
+            <PropertyRef Name="bestelling_bestellingid" />
+          </Key>
+          <Property Name="artikel_artikelid" Type="Int32" Nullable="false" />
+          <Property Name="bestelling_bestellingid" Type="Int32" Nullable="false" />
+          <Property Name="aantal" Type="Int32" />
+          <NavigationProperty Name="artikel" Relationship="Self.FK_bestelregel_artikel" FromRole="bestelregel" ToRole="artikel" />
+          <NavigationProperty Name="bestelling" Relationship="Self.FK_bestelregel_bestelling" FromRole="bestelregel" ToRole="bestelling" />
         </EntityType>
         <EntityType Name="klant">
           <Key>
@@ -414,6 +425,7 @@
           <Property Name="achternaam" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="vestigingid" Type="Int32" Nullable="false" />
           <Property Name="actief" Type="Boolean" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AspNetUserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_AspNetUserID" FromRole="medewerker" ToRole="AspNetUsers" />
           <NavigationProperty Name="bestellings" Relationship="Self.FK_bestelling_medewerker_fk" FromRole="medewerker" ToRole="bestelling" />
@@ -441,6 +453,18 @@
           <NavigationProperty Name="bestellings" Relationship="Self.FK_bestelling_vestiging_fk" FromRole="vestiging" ToRole="bestelling" />
           <NavigationProperty Name="medewerkers" Relationship="Self.FK_medewerker_vestiging_fk" FromRole="vestiging" ToRole="medewerker" />
         </EntityType>
+        <Association Name="FK_bestelregel_artikel">
+          <End Role="artikel" Type="Self.artikel" Multiplicity="1" />
+          <End Role="bestelregel" Type="Self.bestelregel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="artikel">
+              <PropertyRef Name="artikelid" />
+            </Principal>
+            <Dependent Role="bestelregel">
+              <PropertyRef Name="artikel_artikelid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_AspNetUser_ID">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
           <End Role="klant" Type="Self.klant" Multiplicity="*" />
@@ -513,6 +537,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_bestelregel_bestelling">
+          <End Role="bestelling" Type="Self.bestelling" Multiplicity="1" />
+          <End Role="bestelregel" Type="Self.bestelregel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bestelling">
+              <PropertyRef Name="bestellingid" />
+            </Principal>
+            <Dependent Role="bestelregel">
+              <PropertyRef Name="bestelling_bestellingid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_medewerker_vestiging_fk">
           <End Role="vestiging" Type="Self.vestiging" Multiplicity="1" />
           <End Role="medewerker" Type="Self.medewerker" Multiplicity="*" />
@@ -529,20 +565,21 @@
           <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
         </Association>
-        <Association Name="bestelregel">
-          <End Role="artikel" Type="Self.artikel" Multiplicity="*" />
-          <End Role="bestelling" Type="Self.bestelling" Multiplicity="*" />
-        </Association>
-        <EntityContainer Name="DB_A3D6D6_FlowerPowerLuukEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="DB_A3D6D6_FlowerPowerLuukEntities2" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
           <EntitySet Name="artikels" EntityType="Self.artikel" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
           <EntitySet Name="bestellings" EntityType="Self.bestelling" />
+          <EntitySet Name="bestelregels" EntityType="Self.bestelregel" />
           <EntitySet Name="klants" EntityType="Self.klant" />
           <EntitySet Name="medewerkers" EntityType="Self.medewerker" />
           <EntitySet Name="status" EntityType="Self.status" />
           <EntitySet Name="vestigings" EntityType="Self.vestiging" />
+          <AssociationSet Name="FK_bestelregel_artikel" Association="Self.FK_bestelregel_artikel">
+            <End Role="artikel" EntitySet="artikels" />
+            <End Role="bestelregel" EntitySet="bestelregels" />
+          </AssociationSet>
           <AssociationSet Name="FK_AspNetUser_ID" Association="Self.FK_AspNetUser_ID">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="klant" EntitySet="klants" />
@@ -567,6 +604,10 @@
             <End Role="vestiging" EntitySet="vestigings" />
             <End Role="bestelling" EntitySet="bestellings" />
           </AssociationSet>
+          <AssociationSet Name="FK_bestelregel_bestelling" Association="Self.FK_bestelregel_bestelling">
+            <End Role="bestelling" EntitySet="bestellings" />
+            <End Role="bestelregel" EntitySet="bestelregels" />
+          </AssociationSet>
           <AssociationSet Name="FK_medewerker_vestiging_fk" Association="Self.FK_medewerker_vestiging_fk">
             <End Role="vestiging" EntitySet="vestigings" />
             <End Role="medewerker" EntitySet="medewerkers" />
@@ -575,17 +616,13 @@
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
-          <AssociationSet Name="bestelregel" Association="Self.bestelregel">
-            <End Role="artikel" EntitySet="artikels" />
-            <End Role="bestelling" EntitySet="bestellings" />
-          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="DB_A3D6D6_FlowerPowerLuukModelStoreContainer" CdmEntityContainer="DB_A3D6D6_FlowerPowerLuukEntities1">
+        <EntityContainerMapping StorageEntityContainer="DB_A3D6D6_FlowerPowerLuukModelStoreContainer" CdmEntityContainer="DB_A3D6D6_FlowerPowerLuukEntities2">
           <EntitySetMapping Name="C__MigrationHistory">
             <EntityTypeMapping TypeName="DB_A3D6D6_FlowerPowerLuukModel.C__MigrationHistory">
               <MappingFragment StoreEntitySet="__MigrationHistory">
@@ -637,7 +674,6 @@
             <EntityTypeMapping TypeName="DB_A3D6D6_FlowerPowerLuukModel.bestelling">
               <MappingFragment StoreEntitySet="bestelling">
                 <ScalarProperty Name="bestellingid" ColumnName="bestellingid" />
-                <ScalarProperty Name="aantal" ColumnName="aantal" />
                 <ScalarProperty Name="statusid" ColumnName="statusid" />
                 <ScalarProperty Name="besteldatum" ColumnName="besteldatum" />
                 <ScalarProperty Name="ophaaldatum" ColumnName="ophaaldatum" />
@@ -646,6 +682,15 @@
                 <ScalarProperty Name="klantid" ColumnName="klantid" />
                 <ScalarProperty Name="vestigingid" ColumnName="vestigingid" />
                 <ScalarProperty Name="totaalprijs" ColumnName="totaalprijs" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bestelregels">
+            <EntityTypeMapping TypeName="DB_A3D6D6_FlowerPowerLuukModel.bestelregel">
+              <MappingFragment StoreEntitySet="bestelregel">
+                <ScalarProperty Name="artikel_artikelid" ColumnName="artikel_artikelid" />
+                <ScalarProperty Name="bestelling_bestellingid" ColumnName="bestelling_bestellingid" />
+                <ScalarProperty Name="aantal" ColumnName="aantal" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -673,6 +718,7 @@
                 <ScalarProperty Name="achternaam" ColumnName="achternaam" />
                 <ScalarProperty Name="vestigingid" ColumnName="vestigingid" />
                 <ScalarProperty Name="actief" ColumnName="actief" />
+                <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="AspNetUserID" ColumnName="AspNetUserID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -704,14 +750,6 @@
             </EndProperty>
             <EndProperty Name="AspNetUsers">
               <ScalarProperty Name="Id" ColumnName="AspNetUsers_Id" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="bestelregel" TypeName="DB_A3D6D6_FlowerPowerLuukModel.bestelregel" StoreEntitySet="bestelregel">
-            <EndProperty Name="artikel">
-              <ScalarProperty Name="artikelid" ColumnName="artikel_artikelid" />
-            </EndProperty>
-            <EndProperty Name="bestelling">
-              <ScalarProperty Name="bestellingid" ColumnName="bestelling_bestellingid" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>

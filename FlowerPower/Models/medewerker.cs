@@ -26,6 +26,7 @@ namespace FlowerPower.Models
         public string achternaam { get; set; }
         public int vestigingid { get; set; }
         public bool actief { get; set; }
+        public string email { get; set; }
         public string AspNetUserID { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }

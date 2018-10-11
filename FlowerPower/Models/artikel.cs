@@ -17,7 +17,7 @@ namespace FlowerPower.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public artikel()
         {
-            this.bestellings = new HashSet<bestelling>();
+            this.bestelregels = new HashSet<bestelregel>();
         }
     
         public int artikelid { get; set; }
@@ -27,6 +27,6 @@ namespace FlowerPower.Models
         public string image { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<bestelling> bestellings { get; set; }
+        public virtual ICollection<bestelregel> bestelregels { get; set; }
     }
 }
