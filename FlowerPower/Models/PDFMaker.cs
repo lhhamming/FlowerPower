@@ -12,6 +12,7 @@ namespace FlowerPower.Models
 {
     public class PDFMaker
     {
+        private DB_A3D6D6_FlowerPowerLuukEntities1 db = new DB_A3D6D6_FlowerPowerLuukEntities1();
         Document _document;
         Font _fontstyle;
         PdfPTable _pdfTable = new PdfPTable(4);
@@ -239,13 +240,16 @@ namespace FlowerPower.Models
             _pdfTable.AddCell(_pdfCell);
             _pdfTable.CompleteRow();
 
-
+            
             // Table body
             _fontstyle = FontFactory.GetFont("Tahoma", 8f, 0);
-            double totaal = 0;
+            
+            double totaalPrijsExclBtw = 0;
             foreach (var artikel in bestelling.artikels.ToList())
             {
-                _pdfCell = new PdfPCell(new Phrase("aantal", _fontstyle));
+                var bestelregel = db.bestelregel.Where(b => b.bestelregelid == artikel.bestelregelid);
+
+                _pdfCell = new PdfPCell(new Phrase(bestelregel.aantal, _fontstyle));
                 _pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
                 _pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
                 _pdfCell.BackgroundColor = BaseColor.WHITE;
@@ -269,7 +273,7 @@ namespace FlowerPower.Models
                 _pdfCell.BackgroundColor = BaseColor.WHITE;
                 _pdfTable.AddCell(_pdfCell);
 
-                totaal += testaantal;
+                totaalPrijsExclBtw += testaantal;
 
                 _pdfTable.CompleteRow();
             }

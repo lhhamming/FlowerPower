@@ -13,7 +13,7 @@ namespace FlowerPower.Controllers
     [Authorize]
     public class ManageController : Controller
     {
-        private DB_A3D6D6_FlowerPowerLuukEntities1 db = new DB_A3D6D6_FlowerPowerLuukEntities1();
+        private DB_A3D6D6_FlowerPowerLuukEntities2 db = new DB_A3D6D6_FlowerPowerLuukEntities2();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
