@@ -31,7 +31,7 @@ namespace FlowerPower.Controllers
 
         public List<bestelling> GetBestellingen(bestelling bestelling)
         {
-            
+
             /*
             for (int i = 1; i <= 8; i++)
             {
@@ -43,7 +43,8 @@ namespace FlowerPower.Controllers
                 students.Add(student);
             }*/
 
-            return bestellingen;
+            //return bestellingen;
+            return null;
         }
     }
 }
