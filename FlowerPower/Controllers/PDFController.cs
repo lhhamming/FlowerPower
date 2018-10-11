@@ -24,27 +24,9 @@ namespace FlowerPower.Controllers
                 return HttpNotFound();
             }
             PDFMaker PDFMaker = new PDFMaker();
-            byte[] abytes = PDFMaker.PreparePDF(GetBestellingen(bestelling));
+            byte[] abytes = PDFMaker.PreparePDF(bestelling);
 
             return File(abytes, "application/pdf");
-        }
-
-        public List<bestelling> GetBestellingen(bestelling bestelling)
-        {
-
-            /*
-            for (int i = 1; i <= 8; i++)
-            {
-                student = new Student();
-                student.Id = i;
-                student.Voornaam = "Henk" + i;
-                student.Achternaam = "Pietjan" + i;
-                student.Geboortedatum = DateTime.Now;
-                students.Add(student);
-            }*/
-
-            //return bestellingen;
-            return null;
         }
     }
 }

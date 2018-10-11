@@ -12,18 +12,15 @@ namespace FlowerPower.Models
 {
     public class PDFMaker
     {
-        int _totalColumn = 4;
+        private DB_A3D6D6_FlowerPowerLuukEntities1 db = new DB_A3D6D6_FlowerPowerLuukEntities1();
         Document _document;
         Font _fontstyle;
         PdfPTable _pdfTable = new PdfPTable(4);
         PdfPCell _pdfCell;
         MemoryStream _memoryStream = new MemoryStream();
-        List<bestelling> _bestellingen = new List<bestelling>();
 
-        public byte[] PreparePDF(List<bestelling> bestellingen)
+        public byte[] PreparePDF(bestelling bestelling)
         {
-            _bestellingen = bestellingen;
-
             _document = new Document(PageSize.A4, 0f, 0f, 0f, 0f);
             _document.SetPageSize(PageSize.A4);
             _document.SetMargins(20f, 20f, 20f, 20f);
@@ -34,15 +31,15 @@ namespace FlowerPower.Models
             _document.Open();
             _pdfTable.SetWidths(new float[] { 30f, 90f, 50f, 100f });
 
-            this.ReportHeader();
-            this.ReportBody();
+            this.ReportHeader(bestelling);
+            this.ReportBody(bestelling);
             _pdfTable.HeaderRows = 2;
             _document.Add(_pdfTable);
             _document.Close();
             return _memoryStream.ToArray();
         }
 
-        private void ReportHeader()
+        private void ReportHeader(bestelling bestelling)
         {
             _fontstyle = FontFactory.GetFont("Tahoma", 11f, 1);
             _pdfCell = new PdfPCell(new Phrase("Aan:", _fontstyle));
@@ -61,7 +58,7 @@ namespace FlowerPower.Models
             _pdfTable.AddCell(_pdfCell);
             _pdfTable.CompleteRow();
             _fontstyle = FontFactory.GetFont("Tahoma", 11f, 0);
-            _pdfCell = new PdfPCell(new Phrase("Marietje Kwakman", _fontstyle));
+            _pdfCell = new PdfPCell(new Phrase(bestelling.klant.voorletters + " " + bestelling.klant.tussenvoegsels + " " + bestelling.klant.achternaam, _fontstyle));
             _pdfCell.Colspan = 3;
             _pdfCell.HorizontalAlignment = Element.ALIGN_LEFT;
             _pdfCell.Border = 0;
@@ -76,7 +73,7 @@ namespace FlowerPower.Models
             _pdfCell.ExtraParagraphSpace = 0;
             _pdfTable.AddCell(_pdfCell);
             _pdfTable.CompleteRow();
-            _pdfCell = new PdfPCell(new Phrase("Piet Hein laan 10", _fontstyle));
+            _pdfCell = new PdfPCell(new Phrase(bestelling.klant.adres, _fontstyle));
             _pdfCell.Colspan = 3;
             _pdfCell.HorizontalAlignment = Element.ALIGN_LEFT;
             _pdfCell.Border = 0;
@@ -90,8 +87,8 @@ namespace FlowerPower.Models
             _pdfCell.BackgroundColor = BaseColor.WHITE;
             _pdfCell.ExtraParagraphSpace = 0;
             _pdfTable.AddCell(_pdfCell);
-            _pdfTable.CompleteRow();
-            _pdfCell = new PdfPCell(new Phrase("2145 KL Amsterdam", _fontstyle));
+            _pdfTable.CompleteRow(); 
+            _pdfCell = new PdfPCell(new Phrase(bestelling.klant.postcode + " " + bestelling.klant.woonplaats, _fontstyle));
             _pdfCell.Colspan = 3;
             _pdfCell.HorizontalAlignment = Element.ALIGN_LEFT;
             _pdfCell.Border = 0;
@@ -106,45 +103,24 @@ namespace FlowerPower.Models
             _pdfCell.ExtraParagraphSpace = 0;
             _pdfTable.AddCell(_pdfCell);
             _pdfTable.CompleteRow();
-            _pdfCell = new PdfPCell(new Phrase("Tel. 06 75223364", _fontstyle));
-            _pdfCell.Colspan = 3;
-            _pdfCell.HorizontalAlignment = Element.ALIGN_LEFT;
-            _pdfCell.Border = 0;
-            _pdfCell.BackgroundColor = BaseColor.WHITE;
-            _pdfCell.ExtraParagraphSpace = 0;
-            _pdfTable.AddCell(_pdfCell);
             _pdfCell = new PdfPCell(new Phrase("Tel. 021 1234567", _fontstyle));
-            _pdfCell.Colspan = 1;
+            _pdfCell.Colspan = 4;
             _pdfCell.HorizontalAlignment = Element.ALIGN_RIGHT;
             _pdfCell.Border = 0;
             _pdfCell.BackgroundColor = BaseColor.WHITE;
             _pdfCell.ExtraParagraphSpace = 0;
             _pdfTable.AddCell(_pdfCell);
             _pdfTable.CompleteRow();
-            _pdfCell = new PdfPCell(new Phrase("", _fontstyle));
-            _pdfCell.Colspan = 3;
-            _pdfCell.HorizontalAlignment = Element.ALIGN_LEFT;
-            _pdfCell.Border = 0;
-            _pdfCell.BackgroundColor = BaseColor.WHITE;
-            _pdfCell.ExtraParagraphSpace = 0;
-            _pdfTable.AddCell(_pdfCell);
             _pdfCell = new PdfPCell(new Phrase("Web: www.powerflower.nl", _fontstyle));
-            _pdfCell.Colspan = 1;
+            _pdfCell.Colspan = 4;
             _pdfCell.HorizontalAlignment = Element.ALIGN_RIGHT;
             _pdfCell.Border = 0;
             _pdfCell.BackgroundColor = BaseColor.WHITE;
             _pdfCell.ExtraParagraphSpace = 0;
             _pdfTable.AddCell(_pdfCell);
             _pdfTable.CompleteRow();
-            _pdfCell = new PdfPCell(new Phrase("", _fontstyle));
-            _pdfCell.Colspan = 3;
-            _pdfCell.HorizontalAlignment = Element.ALIGN_LEFT;
-            _pdfCell.Border = 0;
-            _pdfCell.BackgroundColor = BaseColor.WHITE;
-            _pdfCell.ExtraParagraphSpace = 0;
-            _pdfTable.AddCell(_pdfCell);
             _pdfCell = new PdfPCell(new Phrase("Mail: info@powerflower.nl", _fontstyle));
-            _pdfCell.Colspan = 1;
+            _pdfCell.Colspan = 4;
             _pdfCell.HorizontalAlignment = Element.ALIGN_RIGHT;
             _pdfCell.Border = 0;
             _pdfCell.BackgroundColor = BaseColor.WHITE;
@@ -185,7 +161,7 @@ namespace FlowerPower.Models
             _pdfTable.AddCell(_pdfCell);
             _pdfTable.CompleteRow();
             _fontstyle = FontFactory.GetFont("Tahoma", 11f, 0);
-            _pdfCell = new PdfPCell(new Phrase("Factuurnummer: 1002", _fontstyle));
+            _pdfCell = new PdfPCell(new Phrase("Factuurnummer: " + bestelling.bestellingid, _fontstyle));
             _pdfCell.Colspan = 4;
             _pdfCell.HorizontalAlignment = Element.ALIGN_LEFT;
             _pdfCell.Border = 0;
@@ -193,7 +169,7 @@ namespace FlowerPower.Models
             _pdfCell.ExtraParagraphSpace = 0;
             _pdfTable.AddCell(_pdfCell);
             _pdfTable.CompleteRow();
-            _pdfCell = new PdfPCell(new Phrase("Factuurdatum: " + DateTime.Now, _fontstyle));
+            _pdfCell = new PdfPCell(new Phrase("Factuurdatum: " + bestelling.besteldatum, _fontstyle));
             _pdfCell.Colspan = 4;
             _pdfCell.HorizontalAlignment = Element.ALIGN_LEFT;
             _pdfCell.Border = 0;
@@ -201,7 +177,7 @@ namespace FlowerPower.Models
             _pdfCell.ExtraParagraphSpace = 0;
             _pdfTable.AddCell(_pdfCell);
             _pdfTable.CompleteRow();
-            _pdfCell = new PdfPCell(new Phrase("Afhaaldatum: " + DateTime.Now, _fontstyle));
+            _pdfCell = new PdfPCell(new Phrase("Afhaaldatum: " + bestelling.ophaaldatum, _fontstyle));
             _pdfCell.Colspan = 4;
             _pdfCell.HorizontalAlignment = Element.ALIGN_LEFT;
             _pdfCell.Border = 0;
@@ -235,7 +211,7 @@ namespace FlowerPower.Models
             _pdfTable.CompleteRow();
         }
 
-        private void ReportBody()
+        private void ReportBody(bestelling bestelling)
         {
             // Table header
             _fontstyle = FontFactory.GetFont("Tahoma", 8f, 1);
@@ -264,33 +240,40 @@ namespace FlowerPower.Models
             _pdfTable.AddCell(_pdfCell);
             _pdfTable.CompleteRow();
 
+            
             // Table body
             _fontstyle = FontFactory.GetFont("Tahoma", 8f, 0);
-            foreach (bestelling bestelling in _bestellingen)
+            
+            double totaalPrijsExclBtw = 0;
+            foreach (var artikel in bestelling.artikels.ToList())
             {
-                _pdfCell = new PdfPCell(new Phrase("TestAantal", _fontstyle));
+                var bestelregel = db.bestelregel.Where(b => b.bestelregelid == artikel.bestelregelid);
+
+                _pdfCell = new PdfPCell(new Phrase(bestelregel.aantal, _fontstyle));
                 _pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
                 _pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
                 _pdfCell.BackgroundColor = BaseColor.WHITE;
                 _pdfTable.AddCell(_pdfCell);
 
-                _pdfCell = new PdfPCell(new Phrase("TestNaam", _fontstyle));
+                _pdfCell = new PdfPCell(new Phrase(artikel.artikelnaam, _fontstyle));
                 _pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
                 _pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
                 _pdfCell.BackgroundColor = BaseColor.WHITE;
                 _pdfTable.AddCell(_pdfCell);
 
-                _pdfCell = new PdfPCell(new Phrase("TestPrijs", _fontstyle));
+                _pdfCell = new PdfPCell(new Phrase(artikel.prijs.ToString(), _fontstyle));
                 _pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
                 _pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
                 _pdfCell.BackgroundColor = BaseColor.WHITE;
                 _pdfTable.AddCell(_pdfCell);
 
-                _pdfCell = new PdfPCell(new Phrase("TestSubTotaal", _fontstyle));
+                _pdfCell = new PdfPCell(new Phrase("testsubaantal", _fontstyle));
                 _pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
                 _pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
                 _pdfCell.BackgroundColor = BaseColor.WHITE;
                 _pdfTable.AddCell(_pdfCell);
+
+                totaalPrijsExclBtw += testaantal;
 
                 _pdfTable.CompleteRow();
             }

@@ -13,10 +13,10 @@ namespace FlowerPower.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class DB_A3D6D6_FlowerPowerLuukEntities1 : DbContext
+    public partial class DB_A3D6D6_FlowerPowerLuukEntities2 : DbContext
     {
-        public DB_A3D6D6_FlowerPowerLuukEntities1()
-            : base("name=DB_A3D6D6_FlowerPowerLuukEntities1")
+        public DB_A3D6D6_FlowerPowerLuukEntities2()
+            : base("name=DB_A3D6D6_FlowerPowerLuukEntities2")
         {
         }
     
@@ -30,6 +30,7 @@ namespace FlowerPower.Models
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<bestelling> bestellings { get; set; }
+        public virtual DbSet<bestelregel> bestelregels { get; set; }
         public virtual DbSet<klant> klants { get; set; }
         public virtual DbSet<medewerker> medewerkers { get; set; }
         public virtual DbSet<status> status { get; set; }
