@@ -25,13 +25,14 @@ namespace FlowerPower.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<artikel> artikel { get; set; }
-        public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
-        public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
-        public virtual DbSet<bestelling> bestelling { get; set; }
-        public virtual DbSet<klant> klant { get; set; }
-        public virtual DbSet<medewerker> medewerker { get; set; }
+        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
+        public virtual DbSet<artikel> artikels { get; set; }
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<bestelling> bestellings { get; set; }
+        public virtual DbSet<klant> klants { get; set; }
+        public virtual DbSet<medewerker> medewerkers { get; set; }
         public virtual DbSet<status> status { get; set; }
-        public virtual DbSet<vestiging> vestiging { get; set; }
+        public virtual DbSet<vestiging> vestigings { get; set; }
     }
 }
