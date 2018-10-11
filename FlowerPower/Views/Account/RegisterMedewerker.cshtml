@@ -1,42 +1,62 @@
-﻿@model FlowerPower.Models.RegisterMedewerkerViewModel
+﻿@model FlowerPower.Models.medewerker
+
 @{
-    ViewBag.Title = "RegisterANewMedewerker";
+    ViewBag.Title = "RegisterMedewerker";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@ViewBag.Title.</h2>
+<h2>Register Medewerker</h2>
 
-@using (Html.BeginForm("RegisterMedewerker", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-    <h4>Create a new account for a medewerker.</h4>
+    
+<div class="form-horizontal">
+    <h4>medewerker</h4>
     <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
-        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(model => model.voorletters, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
-        </div>
-    </div>    
-    <div class="form-group">
-        @Html.LabelFor(m => m.TussenVoegsel, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.TussenVoegsel, new { @class = "form-control" })
-        </div>
-    </div>    
-    <div class="form-group">
-        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
-        </div>
-    </div>    
-    <div class="form-group">
-        @Html.LabelFor(m => m.VestID, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.VestID, new { @class = "form-control" })
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.tussenvoegsels, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.tussenvoegsels, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.tussenvoegsels, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.achternaam, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.achternaam, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.achternaam, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.vestigingid, "vestigingid", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Vestigingen", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.vestigingid, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
 }
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

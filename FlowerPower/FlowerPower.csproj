@@ -216,6 +216,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\vestigingsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -358,6 +359,11 @@
     <Content Include="Views\bestelling\Index.cshtml" />
     <Content Include="Views\Manage\ChangeLastname.cshtml" />
     <Content Include="Views\Account\RegisterMedewerker.cshtml" />
+    <Content Include="Views\vestigings\Create.cshtml" />
+    <Content Include="Views\vestigings\Delete.cshtml" />
+    <Content Include="Views\vestigings\Details.cshtml" />
+    <Content Include="Views\vestigings\Edit.cshtml" />
+    <Content Include="Views\vestigings\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

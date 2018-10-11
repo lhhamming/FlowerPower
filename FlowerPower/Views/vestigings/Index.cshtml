@@ -1,0 +1,64 @@
+﻿@model IEnumerable<FlowerPower.Models.vestiging>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.vestigingsnaam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.vestigingsadres)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.vestigingspostcode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.vestigingsplaats)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.telefoonnummer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.actief)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.vestigingsnaam)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.vestigingsadres)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.vestigingspostcode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.vestigingsplaats)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.telefoonnummer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.actief)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.vestigingsid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.vestigingsid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.vestigingsid })
+        </td>
+    </tr>
+}
+
+</table>

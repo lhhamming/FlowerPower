@@ -177,7 +177,7 @@ namespace FlowerPower.Controllers
 
         public ActionResult RegisterMedewerker()
         {
-            ViewBag.Vestigingen = new SelectList(db.vestiging, "vestigingsid", "vestegingsnaam");
+            ViewBag.Vestigingen = new SelectList(db.vestiging, "vestigingsid", "vestigingsnaam");
             return View();
         }
 
@@ -189,7 +189,7 @@ namespace FlowerPower.Controllers
             if (ModelState.IsValid)
             {
                 //Alle informatie voor het maken van een medewerker
-                var user = new ApplicationUser { UserName = model.FirstName += model.LastName };
+                var user = new ApplicationUser { UserName = model.FirstName += model.LastName, Email = model.UserEmail };
                 var Medewerker = new medewerker { voorletters = model.FirstName, tussenvoegsels = model.TussenVoegsel, achternaam = model.LastName, vestigingid = model.VestID, actief = false};
              
                 var result = await UserManager.CreateAsync(user, model.Password);
