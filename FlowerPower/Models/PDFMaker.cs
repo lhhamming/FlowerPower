@@ -12,7 +12,6 @@ namespace FlowerPower.Models
 {
     public class PDFMaker
     {
-        int _totalColumn = 4;
         Document _document;
         Font _fontstyle;
         PdfPTable _pdfTable = new PdfPTable(4);
