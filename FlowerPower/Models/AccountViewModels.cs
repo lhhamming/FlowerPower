@@ -82,6 +82,9 @@ namespace FlowerPower.Models
     }
     public class RegisterMedewerkerViewModel
     {
+        [Required]
+        [Display (Name = "Email")]
+        public string UserEmail { get; set; }
         
         [Required]
         [Display(Name = "VoorNaam")]

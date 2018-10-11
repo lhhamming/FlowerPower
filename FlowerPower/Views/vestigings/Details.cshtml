@@ -1,0 +1,67 @@
+﻿@model FlowerPower.Models.vestiging
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>vestiging</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.vestigingsnaam)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.vestigingsnaam)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.vestigingsadres)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.vestigingsadres)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.vestigingspostcode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.vestigingspostcode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.vestigingsplaats)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.vestigingsplaats)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.telefoonnummer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.telefoonnummer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.actief)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.actief)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.vestigingsid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
