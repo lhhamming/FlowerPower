@@ -10,10 +10,11 @@
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-    
+    /* Adding my stuff to the project */
 <div class="form-horizontal">
     <h4>medewerker</h4>
     <hr />
+    
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
         @Html.LabelFor(model => model.UserEmail, htmlAttributes: new { @class = "control-label col-md-2" })

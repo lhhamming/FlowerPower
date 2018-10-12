@@ -211,9 +211,13 @@
     <Compile Include="Controllers\ActivityController.cs" />
     <Compile Include="Controllers\artikelsController.cs" />
     <Compile Include="Controllers\AssignFilController.cs" />
+    <Compile Include="Controllers\bestellingController.cs" />
+    <Compile Include="Controllers\bestellingsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PDFController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\vestigingsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -260,6 +264,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\PDFMaker.cs" />
     <Compile Include="Models\status.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -361,6 +366,23 @@
     <Content Include="Views\AssignFil\Index.cshtml" />
     <Content Include="Views\AssignFil\Edit.cshtml" />
     <Content Include="Views\Activity\Index.cshtml" />
+    <Content Include="Views\vestigings\Create.cshtml" />
+    <Content Include="Views\vestigings\Delete.cshtml" />
+    <Content Include="Views\vestigings\Details.cshtml" />
+    <Content Include="Views\vestigings\Edit.cshtml" />
+    <Content Include="Views\vestigings\Index.cshtml" />
+    <Content Include="Views\bestellings\Create.cshtml" />
+    <Content Include="Views\bestellings\Delete.cshtml" />
+    <Content Include="Views\bestellings\Details.cshtml" />
+    <Content Include="Views\bestellings\Edit.cshtml" />
+    <Content Include="Views\bestellings\Index.cshtml" />
+    <Content Include="Views\bestelling\Create.cshtml" />
+    <Content Include="Views\bestelling\Delete.cshtml" />
+    <Content Include="Views\bestelling\Details.cshtml" />
+    <Content Include="Views\bestelling\Edit.cshtml" />
+    <Content Include="Views\bestelling\Index.cshtml" />
+    <Content Include="Views\Manage\ChangeLastname.cshtml" />
+    <Content Include="Views\Account\RegisterMedewerker.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
