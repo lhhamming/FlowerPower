@@ -10,8 +10,8 @@ namespace FlowerPower.Controllers
 {
     public class PDFController : Controller
     {
-        private DB_A3D6D6_FlowerPowerLuukEntities1 db = new DB_A3D6D6_FlowerPowerLuukEntities1();
-        // GET: PDF/PDF/5
+        private DB_A3D6D6_FlowerPowerLuukEntities2 db = new DB_A3D6D6_FlowerPowerLuukEntities2();
+        // GET: PDF/PDF/5 
         public ActionResult PDF(int? id)
         {
             if (id == null)
