@@ -187,7 +187,8 @@ namespace FlowerPower.Models
             _pdfTable.AddCell(_pdfCell);
             _pdfTable.CompleteRow();
             string afhaaltijdstip = bestelling.ophaaldatum.ToString();
-            _pdfCell = new PdfPCell(new Phrase("Afhaaltijdstip: " + afhaaltijdstip.Remove(0,11), _fontstyle));
+            string afhaaltijdstipformat = afhaaltijdstip.Remove(0, 11);
+            _pdfCell = new PdfPCell(new Phrase("Afhaaltijdstip: " + afhaaltijdstipformat.Remove(afhaaltijdstipformat.Length - 3), _fontstyle));
             _pdfCell.Colspan = 4;
             _pdfCell.HorizontalAlignment = Element.ALIGN_LEFT;
             _pdfCell.Border = 0;
