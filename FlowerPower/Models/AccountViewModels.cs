@@ -99,7 +99,7 @@ namespace FlowerPower.Models
         
         [Required]
         [Display(Name = "Vesteging's ID")]
-        public int VestID { get; set; }
+        public int vestigingsid { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

@@ -12,13 +12,13 @@ namespace FlowerPower.Controllers
     public class AssignFilController : Controller
     {
 
-        private DB_A3D6D6_FlowerPowerLuukEntities2 db = new DB_A3D6D6_FlowerPowerLuukEntities2();
+        private DB_A3D6D6_FlowerPowerLuukEntities db = new DB_A3D6D6_FlowerPowerLuukEntities();
 
         // GET: AssignFil : Show all medewerkers with no vestiging
         public ActionResult Index()
         {
 
-            var MederwerkerList = db.medewerkers.Where(m => m.vestigingid == null);
+            var MederwerkerList = db.medewerkers.Where(m => m.vestigingsid == null);
 
 
 

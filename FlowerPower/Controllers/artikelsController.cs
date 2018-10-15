@@ -13,7 +13,7 @@ namespace FlowerPower.Controllers
 {
     public class artikelsController : Controller
     {
-        private DB_A3D6D6_FlowerPowerLuukEntities2 db = new DB_A3D6D6_FlowerPowerLuukEntities2();
+        private DB_A3D6D6_FlowerPowerLuukEntities db = new DB_A3D6D6_FlowerPowerLuukEntities();
 
         // GET: artikels
         public ActionResult Index()
