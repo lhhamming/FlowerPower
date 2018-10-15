@@ -369,9 +369,25 @@
     <Content Include="Views\AssignFil\Index.cshtml" />
     <Content Include="Views\AssignFil\Edit.cshtml" />
     <Content Include="Views\Activity\Index.cshtml" />
+    <Content Include="Views\bestellings\Create.cshtml" />
+    <Content Include="Views\bestellings\Delete.cshtml" />
+    <Content Include="Views\bestellings\Details.cshtml" />
+    <Content Include="Views\bestellings\Edit.cshtml" />
+    <Content Include="Views\bestellings\Index.cshtml" />
+    <Content Include="Views\bestelling\Create.cshtml" />
+    <Content Include="Views\bestelling\Delete.cshtml" />
+    <Content Include="Views\bestelling\Details.cshtml" />
+    <Content Include="Views\bestelling\Edit.cshtml" />
+    <Content Include="Views\bestelling\Index.cshtml" />
+    <Content Include="Views\vestigings\Create.cshtml" />
+    <Content Include="Views\vestigings\Delete.cshtml" />
+    <Content Include="Views\vestigings\Details.cshtml" />
+    <Content Include="Views\vestigings\Edit.cshtml" />
+    <Content Include="Views\vestigings\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\PDF\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
