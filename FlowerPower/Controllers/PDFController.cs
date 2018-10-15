@@ -23,8 +23,9 @@ namespace FlowerPower.Controllers
             {
                 return HttpNotFound();
             }
-            //PDFMaker PDFmaker = new PDFMaker();
-            byte[] abytes = null; //PDFMaker.PreparePDF(bestelling);
+            //luuk sloopt alles
+            PDFMaker PDFMaker = new PDFMaker();
+            byte[] abytes = PDFMaker.PreparePDF(bestelling);
 
             return File(abytes, "application/pdf");
         }
