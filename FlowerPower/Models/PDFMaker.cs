@@ -13,7 +13,7 @@ namespace FlowerPower.Models
 {
     public class PDFMaker
     {
-        private DB_A3D6D6_FlowerPowerLuukEntities2 db = new DB_A3D6D6_FlowerPowerLuukEntities2();
+        private DB_A3D6D6_FlowerPowerLuukEntities db = new DB_A3D6D6_FlowerPowerLuukEntities();
         Document _document;
         Font _fontstyle;
         PdfPTable _pdfTable = new PdfPTable(4);

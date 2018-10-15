@@ -13,10 +13,10 @@ namespace FlowerPower.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class DB_A3D6D6_FlowerPowerLuukEntities2 : DbContext
+    public partial class DB_A3D6D6_FlowerPowerLuukEntities : DbContext
     {
-        public DB_A3D6D6_FlowerPowerLuukEntities2()
-            : base("name=DB_A3D6D6_FlowerPowerLuukEntities2")
+        public DB_A3D6D6_FlowerPowerLuukEntities()
+            : base("name=DB_A3D6D6_FlowerPowerLuukEntities")
         {
         }
     
@@ -25,7 +25,6 @@ namespace FlowerPower.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<artikel> artikels { get; set; }
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }

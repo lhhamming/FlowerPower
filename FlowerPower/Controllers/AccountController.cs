@@ -19,7 +19,7 @@ namespace FlowerPower.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        private DB_A3D6D6_FlowerPowerLuukEntities2 db = new DB_A3D6D6_FlowerPowerLuukEntities2();
+        private DB_A3D6D6_FlowerPowerLuukEntities db = new DB_A3D6D6_FlowerPowerLuukEntities();
 
         public AccountController()
         {
@@ -177,7 +177,7 @@ namespace FlowerPower.Controllers
 
         public ActionResult RegisterMedewerker()
         {
-            ViewBag.Vestigingen = new SelectList(db.vestigings, "vestigingsid", "vestigingsnaam");
+            ViewBag.vestigingsid = new SelectList(db.vestigings, "vestigingsid" , "vestigingsid");
             return View();
         }
 
@@ -186,23 +186,40 @@ namespace FlowerPower.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterMedewerker(RegisterMedewerkerViewModel model)
         {
+            var user = new ApplicationUser {};
             if (ModelState.IsValid)
             {
                 //Alle informatie voor het maken van een medewerker
-                var user = new ApplicationUser { UserName = model.FirstName += model.LastName, Email = model.UserEmail };
-                var Medewerker = new medewerker { voorletters = model.FirstName, tussenvoegsels = model.TussenVoegsel, achternaam = model.LastName, vestigingid = model.VestID, actief = false};
-             
+                if(model.TussenVoegsel != "")
+                {
+                    user = new ApplicationUser { UserName = model.FirstName += model.LastName, Email = model.UserEmail };
+                }
+                else
+                {
+                    user = new ApplicationUser { UserName = model.FirstName += model.TussenVoegsel += model.LastName, Email = model.UserEmail };
+                }
+                
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    var Medewerker = new medewerker { };
+                    if (model.TussenVoegsel != "")
+                    {
+                        Medewerker = new medewerker { voorletters = model.FirstName, tussenvoegsels = "" , achternaam = model.LastName, vestigingsid = model.vestigingsid, actief = false, AspNetUserID = user.Id};
+
+                    }
+                    else
+                    {
+                        Medewerker = new medewerker { voorletters = model.FirstName, tussenvoegsels = model.TussenVoegsel, achternaam = model.LastName, vestigingsid = model.vestigingsid, actief = false, AspNetUserID = user.Id};
+                    }
+
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    using (DB_A3D6D6_FlowerPowerLuukEntities2 db = new DB_A3D6D6_FlowerPowerLuukEntities2())
+                    using (DB_A3D6D6_FlowerPowerLuukEntities db = new DB_A3D6D6_FlowerPowerLuukEntities())
                     {
                         db.medewerkers.Add(Medewerker);
                         db.SaveChanges();

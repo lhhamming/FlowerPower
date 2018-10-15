@@ -13,7 +13,7 @@ namespace FlowerPower.Controllers
 {
     public class bestellingController : Controller
     {
-        private DB_A3D6D6_FlowerPowerLuukEntities2 db = new DB_A3D6D6_FlowerPowerLuukEntities2();
+        private DB_A3D6D6_FlowerPowerLuukEntities db = new DB_A3D6D6_FlowerPowerLuukEntities();
 
         private List<bestelling> BestellingenPerVestiging = new List<bestelling>();
 
@@ -25,7 +25,7 @@ namespace FlowerPower.Controllers
 
             foreach (var Bestelling in db.bestellings.ToList())
             {
-                if(Bestelling.vestiging.vestigingsid == CurrentMedewerker.First().vestigingid)
+                if(Bestelling.vestiging.vestigingsid == CurrentMedewerker.First().vestigingsid)
                 {
                     BestellingenPerVestiging.Add(Bestelling);
                 }

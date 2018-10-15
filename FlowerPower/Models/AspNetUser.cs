@@ -19,7 +19,6 @@ namespace FlowerPower.Models
         {
             this.klants = new HashSet<klant>();
             this.medewerkers = new HashSet<medewerker>();
-            this.AspNetRoles = new HashSet<AspNetRole>();
         }
     
         public string Id { get; set; }
@@ -39,7 +38,5 @@ namespace FlowerPower.Models
         public virtual ICollection<klant> klants { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<medewerker> medewerkers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
     }
 }

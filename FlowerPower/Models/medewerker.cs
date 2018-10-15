@@ -20,13 +20,12 @@ namespace FlowerPower.Models
             this.bestellings = new HashSet<bestelling>();
         }
     
-        public int medewerkerid { get; set; }
+        public string medewerkerid { get; set; }
         public string voorletters { get; set; }
         public string tussenvoegsels { get; set; }
         public string achternaam { get; set; }
-        public int vestigingid { get; set; }
+        public int vestigingsid { get; set; }
         public bool actief { get; set; }
-        public string email { get; set; }
         public string AspNetUserID { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }

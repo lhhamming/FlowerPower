@@ -5,14 +5,14 @@ namespace FlowerPower.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<FlowerPower.Models.DB_A3D6D6_FlowerPowerLuukEntities2>
+    internal sealed class Configuration : DbMigrationsConfiguration<FlowerPower.Models.DB_A3D6D6_FlowerPowerLuukEntities>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(FlowerPower.Models.DB_A3D6D6_FlowerPowerLuukEntities2 context)
+        protected override void Seed(FlowerPower.Models.DB_A3D6D6_FlowerPowerLuukEntities context)
         {
             //  This method will be called after migrating to the latest version.
 
