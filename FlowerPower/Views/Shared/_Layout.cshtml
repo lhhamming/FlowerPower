@@ -28,6 +28,8 @@
                     @if (User.IsInRole("Manager"))
                     {
                         <li>@Html.ActionLink("Register a medewerker", "RegisterMedewerker", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                        <li><a href="~/Views/artikels/Index.cshtml"></a></li>
+                        <li><a href="~/Views/Roles/Link.cshtml">Rollen</a></li>
                     }
                     else if (User.IsInRole("Applicatiebeheerder"))
                     {

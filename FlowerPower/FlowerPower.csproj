@@ -288,6 +288,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="images\artikels\636746771367976025.jpg" />
     <Content Include="images\artikels\636746772101733356.jpg" />
+    <Content Include="images\artikels\imgnotfound.png" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
