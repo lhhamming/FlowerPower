@@ -193,11 +193,15 @@ namespace FlowerPower.Controllers
                 //Alle informatie voor het maken van een medewerker
                 if(model.TussenVoegsel != "")
                 {
-                    user = new ApplicationUser { UserName = model.FirstName += model.LastName, Email = model.UserEmail };
+                    string uName = model.FirstName + model.LastName;
+
+                    user = new ApplicationUser { UserName = uName, Email = model.UserEmail };
                 }
                 else
                 {
-                    user = new ApplicationUser { UserName = model.FirstName += model.TussenVoegsel += model.LastName, Email = model.UserEmail };
+                    string uName = model.FirstName + model.TussenVoegsel + model.LastName;
+
+                    user = new ApplicationUser { UserName = uName, Email = model.UserEmail };
                 }
                 
                 var result = await UserManager.CreateAsync(user, model.Password);
