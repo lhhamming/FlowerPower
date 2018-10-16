@@ -191,7 +191,7 @@ namespace FlowerPower.Controllers
             if (ModelState.IsValid)
             {
                 //Alle informatie voor het maken van een medewerker
-                if(model.TussenVoegsel != "")
+                if (model.TussenVoegsel != "")
                 {
                     user = new ApplicationUser { UserName = model.FirstName, Email = model.UserEmail };
                 }
@@ -199,7 +199,7 @@ namespace FlowerPower.Controllers
                 {
                     user = new ApplicationUser { UserName = model.FirstName, Email = model.UserEmail };
                 }
-                
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
