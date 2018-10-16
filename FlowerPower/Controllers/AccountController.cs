@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using FlowerPower.Models;
+using System.Data.Entity.Validation;
 
 namespace FlowerPower.Controllers
 {
@@ -177,7 +178,7 @@ namespace FlowerPower.Controllers
 
         public ActionResult RegisterMedewerker()
         {
-            ViewBag.vestigingsid = new SelectList(db.vestigings, "vestigingsid" , "vestigingsid");
+            ViewBag.vestigingsid = new SelectList(db.vestigings, "vestigingsid", "vestigingsnaam");
             return View();
         }
 
@@ -221,8 +222,28 @@ namespace FlowerPower.Controllers
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     using (DB_A3D6D6_FlowerPowerLuukEntities db = new DB_A3D6D6_FlowerPowerLuukEntities())
                     {
+                        try
+                        {
                         db.medewerkers.Add(Medewerker);
                         db.SaveChanges();
+                        }
+                        catch (DbEntityValidationException e)
+                        {
+                            Exception raise = e;
+                            foreach (var validationErrors in e.EntityValidationErrors)
+                            {
+                                foreach (var validationError in validationErrors.ValidationErrors)
+                                {
+                                    string message = string.Format("{0}:{1}",
+                                        validationErrors.Entry.Entity.ToString(),
+                                        validationError.ErrorMessage);
+                                    // raise a new exception nesting
+                                    // the current instance as InnerException
+                                    raise = new InvalidOperationException(message, raise);
+                                }
+                            }
+                            throw raise;
+                        }
                     }
                         return RedirectToAction("Index", "Home");
                 }

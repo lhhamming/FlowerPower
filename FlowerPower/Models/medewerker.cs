@@ -20,7 +20,7 @@ namespace FlowerPower.Models
             this.bestellings = new HashSet<bestelling>();
         }
     
-        public string medewerkerid { get; set; }
+        public int medewerkerid { get; set; }
         public string voorletters { get; set; }
         public string tussenvoegsels { get; set; }
         public string achternaam { get; set; }

@@ -87,10 +87,10 @@ namespace FlowerPower.Models
         public string UserEmail { get; set; }
         
         [Required]
-        [Display(Name = "VoorNaam")]
+        [Display(Name = "Voorletters")]
         public string FirstName { get; set; }
 
-        [Display(Name = "TussenVoegsels")]
+        [Display(Name = "Tussenvoegsels")]
         public string TussenVoegsel { get; set; }
 
         [Required]
