@@ -1,17 +1,69 @@
-﻿
+﻿@model IEnumerable<FlowerPower.Models.medewerker>
 @{
-    Layout = null;
+    ViewBag.Title = "Activiteit";
 }
-
 <!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
+
+
+
 </head>
 <body>
-    <div> 
-    </div>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.voorletters)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.achternaam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.vestiging.vestigingsnaam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.actief)
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.voorletters)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.achternaam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.vestiging.vestigingsnaam)
+            </td>
+
+            @if (item.actief == true)
+            {
+                <td>Actief</td>
+            }
+            else
+            {
+                <td>Inactief</td>
+            }
+
+            @if (item.actief == true)
+            {
+                <td>@Html.ActionLink("Deactiveer", "Deactivate", new { id = item.medewerkerid })</td>
+            }
+            else
+            {
+                <td>@Html.ActionLink("Activeer", "Activate", new { id = item.medewerkerid })</td>
+            }
+        </tr>
+        }
+
+    </table>
 </body>
 </html>

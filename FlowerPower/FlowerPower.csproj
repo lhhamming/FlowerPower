@@ -390,6 +390,8 @@
     <Content Include="Views\Manage\ChangeLastname.cshtml" />
     <Content Include="Views\Manage\RegisterMedewerker.cshtml" />
     <Content Include="Views\Account\RegisterMedewerker.cshtml" />
+    <Content Include="Views\Activity\Deactivate.cshtml" />
+    <Content Include="Views\Activity\Activate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
