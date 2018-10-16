@@ -215,7 +215,6 @@
     <Compile Include="Controllers\artikelsController.cs" />
     <Compile Include="Controllers\AssignFilController.cs" />
     <Compile Include="Controllers\bestellingController.cs" />
-    <Compile Include="Controllers\bestellingsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PDFController.cs" />
@@ -292,6 +291,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="images\artikels\636746771367976025.jpg" />
     <Content Include="images\artikels\636746772101733356.jpg" />
+    <Content Include="images\artikels\imgnotfound.png" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -372,11 +372,6 @@
     <Content Include="Views\AssignFil\Index.cshtml" />
     <Content Include="Views\AssignFil\Edit.cshtml" />
     <Content Include="Views\Activity\Index.cshtml" />
-    <Content Include="Views\bestellings\Create.cshtml" />
-    <Content Include="Views\bestellings\Delete.cshtml" />
-    <Content Include="Views\bestellings\Details.cshtml" />
-    <Content Include="Views\bestellings\Edit.cshtml" />
-    <Content Include="Views\bestellings\Index.cshtml" />
     <Content Include="Views\bestelling\Create.cshtml" />
     <Content Include="Views\bestelling\Delete.cshtml" />
     <Content Include="Views\bestelling\Details.cshtml" />
@@ -395,7 +390,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\PDF\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

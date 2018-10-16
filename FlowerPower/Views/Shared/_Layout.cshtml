@@ -27,11 +27,19 @@
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     @if (User.IsInRole("Manager"))
                     {
-                        <li>@Html.ActionLink("Register a medewerker", "RegisterMedewerker", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                        <li>@Html.ActionLink("Register een medewerker", "RegisterMedewerker", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                        <li>@Html.ActionLink("Artikelen ", "Index", "artikels")</li>
+                        <li>@Html.ActionLink("Rollen ", "Index", "Roles")</li>
+                        <li>@Html.ActionLink("Vestegingen ", "Index", "vestigings")</li>
+                        <li>@Html.ActionLink("Bestellingen ", "Index", "bestelling")</li>
                     }
                     else if (User.IsInRole("Applicatiebeheerder"))
                     {
-                        <li>@Html.ActionLink("Register a medewerker", "RegisterMedewerker", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                        <li>@Html.ActionLink("Register een medewerker", "RegisterMedewerker", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                        <li>@Html.ActionLink("Artikelen ", "Index", "artikels")</li>
+                        <li>@Html.ActionLink("Rollen ", "Index", "Roles")</li>
+                        <li>@Html.ActionLink("Vestegingen ", "Index", "vestigings")</li>
+                        <li>@Html.ActionLink("Bestellingen ", "Index", "bestelling")</li>
 
                     }
                 </ul>

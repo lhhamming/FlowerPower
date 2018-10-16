@@ -4,24 +4,24 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Artikel overzicht</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Nieuw artikel aanmaken", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.artikelnaam)
+            Artikelnaam
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.prijs)
+            Prijs per stuk
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.actief)
+            Actief
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.image)
+            Afbeelding
         </th>
         <th></th>
     </tr>
@@ -32,18 +32,26 @@
             @Html.DisplayFor(modelItem => item.artikelnaam)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.prijs)
+            €@Html.DisplayFor(modelItem => item.prijs)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.actief)
         </td>
         <td>
-            <img src="@Url.Content("~/images/artikels/"+item.image)" alt="Image" width="100" height="100" />
+            @if (item.image == null)
+            {
+                <img src="~/images/artikels/imgnotfound.png" 
+                     width="100" height="100" />
+            }
+            else
+            {
+                <img src="@Url.Content("~/images/artikels/"+item.image)" alt="Image" width="100" height="100" />
+            }
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.artikelid }) |
+            @Html.ActionLink("Aanpassen", "Edit", new { id=item.artikelid }) |
             @Html.ActionLink("Details", "Details", new { id=item.artikelid }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.artikelid })
+            @Html.ActionLink("Verwijderen", "Delete", new { id=item.artikelid })
         </td>
     </tr>
 }
