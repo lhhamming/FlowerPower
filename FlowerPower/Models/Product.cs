@@ -7,7 +7,7 @@ namespace FlowerPower.Models
 {
     public class Product
     {
-        public string Id
+        public int Id
         {
             get; set;
         }

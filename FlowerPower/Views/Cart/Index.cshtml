@@ -26,23 +26,30 @@
             <th>Sub Total</th>
         </tr>
         @foreach (item item in (List<item>)Session["cart"])
-        {
-            <tr>
-                <td><a href="@Url.Action("Remove", "Cart", new { id = item.Product.Id })">Remove</a></td>
-                <td>@item.Product.Id</td>
-                <td>@item.Product.Name</td>
-                <td><img src="~/Content/Images/@item.Product.Photo" width="60" /> </td>
-                <td>@item.Product.Price</td>
-                <td>@item.Quantity</td>
-                <td>@(item.Product.Price * item.Quantity)</td>
-            </tr>
+            {
+        <tr>
+            <td><a href="@Url.Action("Remove", "Cart", new { id = item.Product.artikelid })">Remove</a></td>
+            <td>@item.Product.artikelid</td>
+            <td>@item.Product.artikelnaam</td>
+            @if (item.Product.image == null)
+            {
+                <td><img src="~/images/artikels/imgnotfound.png" /></td>
+            }
+            else
+            {
+                <td><img src="@Url.Content("~/images/artikels/"+item.Product.image)" alt="Image" width="100" height="100" /></td>
+            }
+            <td>@item.Product.prijs</td>
+            <td>@item.Quantity</td>
+            <td>@(item.Product.prijs * item.Quantity)</td>
+        </tr>
         }
         <tr>
             <td align="right" colspan="6">Sum</td>
             <td>
                 @{
                     List<item> cart = (List<item>)Session["cart"];
-                    var total = cart.Sum(item => item.Product.Price * item.Quantity);
+                    var total = cart.Sum(item => item.Product.prijs * item.Quantity);
                 }
                 @total
             </td>

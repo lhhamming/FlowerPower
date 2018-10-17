@@ -3,7 +3,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@using FlowerPower.Models
+@using FlowerPower.Models;
 
 <!DOCTYPE html>
 
@@ -25,15 +25,30 @@
         </tr>
         @foreach (artikel artikelen in ViewBag.products)
         {
-            <tr>
-                <td>@artikelen.artikelid</td>
-                <td>@artikelen.artikelnaam</td>
-                <td><img src="~/Content/Images/@artikelen.image" width="60" /> </td>
-                <td>@artikelen.prijs</td>
-                <td align="center">
-                    <a href="@Url.Action("Buy", "Cart", new { id = artikelen.artikelnaam })">Buy Now</a>
-                </td>
-            </tr>
+            if (artikelen.actief != true)
+            {
+                //hij is inactief. Laat hem niet zien
+            }
+            else
+            {
+                <tr>
+                    <td>@artikelen.artikelid</td>
+                    <td>@artikelen.artikelnaam</td>
+                    @if(artikelen.image == null)
+                    {
+                    <td><img src="~/images/artikels/imgnotfound.png" /></td>
+                    }
+                    else
+                    {
+                    <td><img src="@Url.Content("~/images/artikels/"+artikelen.image)" alt="Image" width="100" height="100" /></td>
+                    }
+                    <td>@artikelen.prijs</td>
+                    <td align="center">
+                        <a href="@Url.Action("Buy", "Cart", new { @id = artikelen.artikelid })">Buy Now</a>
+                    </td>
+                </tr>
+            }
+
         }
     </table>
 

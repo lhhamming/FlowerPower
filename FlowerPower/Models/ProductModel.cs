@@ -7,40 +7,25 @@ namespace FlowerPower.Models
 {
     public class ProductModel
     {
-        private List<Product> products;
-
+        private List<artikel> artikelen;
+        private DB_A3D6D6_FlowerPowerLuukEntities db = new DB_A3D6D6_FlowerPowerLuukEntities();
         public ProductModel()
         {
-            this.products = new List<Product>() {
-                new Product {
-                    Id = "p01",
-                    Name = "Name 1",
-                    Price = 5,
-                    Photo = "thumb1.gif"
-                },
-                new Product {
-                    Id = "p02",
-                    Name = "Name 2",
-                    Price = 2,
-                    Photo = "thumb2.gif"
-                },
-                new Product {
-                    Id = "p03",
-                    Name = "Name 3",
-                    Price = 6,
-                    Photo = "thumb3.gif"
-                }
-            };
+            artikelen = new List<artikel>();
+            foreach(artikel artikel in db.artikels.ToList())
+            {
+                artikelen.Add(artikel);
+            }
         }
 
-        public List<Product> findAll()
+        public List<artikel> findAll()
         {
-            return this.products;
+            return artikelen;
         }
 
-        public Product find(string id)
+        public artikel find(string id)
         {
-            return this.products.Single(p => p.Id.Equals(id));
+            return artikelen.Find(p => p.artikelid.Equals(id));
         }
 
     }

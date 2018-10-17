@@ -12,8 +12,8 @@ namespace FlowerPower.Controllers
         private DB_A3D6D6_FlowerPowerLuukEntities db = new DB_A3D6D6_FlowerPowerLuukEntities();
         public ActionResult Index()
         {
-            //ProductModel productModel = new ProductModel();
-            ViewBag.products = db.artikels.ToList();
+            ProductModel productModel = new ProductModel();
+            ViewBag.products = productModel.findAll();
             return View();
         }
     }

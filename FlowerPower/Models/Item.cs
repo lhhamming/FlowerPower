@@ -7,7 +7,7 @@ namespace FlowerPower.Models
 {
     public class item
     {
-        public Product Product
+        public artikel Product
         {
             get; set;
         }
