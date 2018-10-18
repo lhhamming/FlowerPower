@@ -14,20 +14,22 @@ namespace FlowerPower.Controllers
 
         private DB_A3D6D6_FlowerPowerLuukEntities db = new DB_A3D6D6_FlowerPowerLuukEntities();
 
-        // GET: AssignFil : Show all medewerkers with no vestiging
+        // GET: AssignFil : Show all medewerkers with vestiging
         public ActionResult Index()
         {
+            
+            
+            //var MederwerkerList = db.medewerkers.Where(m => m.vestigingsid == null);
+            return View(db.medewerkers.ToList());
 
-            var MederwerkerList = db.medewerkers.Where(m => m.vestigingsid == null);
-
-
-
-            return View(MederwerkerList);
         }
 
         // GET: AssignFil/Edit/5
         public ActionResult Edit(int? id)
         {
+            
+
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -37,33 +39,26 @@ namespace FlowerPower.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.vestigingsid = new SelectList(db.vestigings, "vestigingsid", "vestigingsnaam", medewerker.vestigingsid);
+            ViewBag.AspNetUserID = new SelectList(db.AspNetUsers, "Id", "Email", medewerker.AspNetUserID);
             return View(medewerker);
         }
 
         // POST: AssignFil/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "vestigingid")] artikel artikel)
+        public ActionResult Edit([Bind(Include = "medewerkerid,voorletters,tussenvoegsels,achternaam,vestigingsid,actief, AspNetUserID")] medewerker medewerker)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(artikel).State = EntityState.Modified;
+                db.Entry(medewerker).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(artikel);
+            ViewBag.vestigingsid = new SelectList(db.vestigings, "vestigingsid", "vestigingsnaam", medewerker.vestigingsid);
+            ViewBag.AspNetUserID = new SelectList(db.AspNetUsers, "Id", "Email", medewerker.AspNetUserID);
+            return View(medewerker);
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Assign(int id, int vestid)
-        //{
-
-        //    medewerker BewerkteMw = db.medewerker.FirstOrDefault(x => x.medewerkerid == id);
-        //    BewerkteMw.vestigingid = vestid;
-        //    db.SaveChanges();
-
-        //    return View();
-        //}
     }
 }
