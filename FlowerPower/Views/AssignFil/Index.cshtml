@@ -22,6 +22,10 @@
                     <th>
                         @Html.DisplayNameFor(model => model.achternaam)
                     </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.vestiging.vestigingsnaam)
+                    </th>
+                    <th></th>
                     <th></th>
                 </tr>
             </thead>
@@ -39,9 +43,10 @@
                             @Html.DisplayFor(modelItem => item.achternaam)
                         </td>
                         <td>
-                            @*@Html.ActionLink("Reserveer", "Reserveer", new { id = item.lodgeID, startDate = Request.Params["startDate"], endDate = Request.Params["endDate"] })*@
-                            @*<button class="btn btn-info" onclick="location.href='@Url.Action("Reserveer", "Reserveer", new { id = item.lodgeID, startDate = Request.Params["startDate"], endDate = Request.Params["endDate"] })';return false;">Register</button>*@
-                            @*<button class="btn btn-info">Info</button>*@
+                            @Html.DisplayFor(modelItem => item.vestiging.vestigingsnaam)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Vestiging Wijzigen", "Edit", new { id = item.medewerkerid })
                         </td>
                     </tr>
                 }
