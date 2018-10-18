@@ -141,6 +141,15 @@ namespace FlowerPower.Controllers
             return View(bestelling);
         }
 
+        public ActionResult Afgehandeld(int id)
+        {
+            
+            bestelling bestelling = db.bestellings.Find(id);
+            //Status ID 2 betekent dat hij klaar is voor het afhalen.
+            bestelling.statusid = 2;
+            return View();
+        }
+
         // GET: bestelling/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -162,8 +171,16 @@ namespace FlowerPower.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             bestelling bestelling = db.bestellings.Find(id);
-            db.bestellings.Remove(bestelling);
-            db.SaveChanges();
+            var vandaag = DateTime.Now;
+            if (bestelling.besteldatum >= vandaag || bestelling.besteldatum <= vandaag)
+            {
+                //Id 4 is geannuleerd.
+                bestelling.statusid = 4;
+                db.SaveChanges();
+                ViewBag.Succes = "Geannuleerd";
+                return RedirectToAction("Index");
+            }
+            ViewBag.Error = "U kunt uw bestelling niet annuleren op de dag dat uw bestelling geweest is.";
             return RedirectToAction("Index");
         }
 
