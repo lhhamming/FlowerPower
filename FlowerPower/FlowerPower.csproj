@@ -392,6 +392,9 @@
     <Content Include="Views\Account\RegisterMedewerker.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\bestelling\Take.cshtml" />
+    <Content Include="Views\Activity\Activate.cshtml" />
+    <Content Include="Views\Activity\Deactivate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -18,6 +18,7 @@ namespace FlowerPower.Controllers
         private List<bestelling> BestellingenPerVestiging = new List<bestelling>();
 
         // GET: bestelling
+        [Authorize(Roles = "ApplicatieBeheerder, Manager, Medewerker, Klant")]
         public ActionResult Index()
         {
             
@@ -100,11 +101,19 @@ namespace FlowerPower.Controllers
             return View(bestelling);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Take")]
         [ValidateAntiForgeryToken]
         public ActionResult TakeConfirmed(int? id)
         {
             // TODO: Post medewerker association to bestelling
+            var user = User.Identity.GetUserId();
+            var CurrentMedewerker = db.medewerkers.Where(m => m.AspNetUserID == user).FirstOrDefault();
+
+            bestelling bestelling = db.bestellings.Find(id);
+
+            bestelling.medewerkerid = CurrentMedewerker.medewerkerid;
+            db.SaveChanges();
+
 
             return RedirectToAction("Index");
         }
@@ -122,7 +131,10 @@ namespace FlowerPower.Controllers
                 return HttpNotFound();
             }
 
-            return View(bestelling);
+            PDFMaker PDFMaker = new PDFMaker();
+            byte[] abytes = PDFMaker.PreparePDF(bestelling);
+
+            return File(abytes, "application/pdf");
         }
 
 
