@@ -43,8 +43,9 @@
                     <td><img src="@Url.Content("~/images/artikels/"+artikelen.image)" alt="Image" width="100" height="100" /></td>
                     }
                     <td>@artikelen.prijs</td>
+                    <td><input type="number" name="Quantity" id="quant" min="1" max="100" step="1" value="1"></td>
                     <td align="center">
-                        <a href="@Url.Action("Buy", "Cart", new { @id = artikelen.artikelid })">Buy Now</a>
+                        <a href="@Url.Action("Buy", "Cart", new { @id = artikelen.artikelid})">Buy Now</a>
                     </td>
                 </tr>
             }

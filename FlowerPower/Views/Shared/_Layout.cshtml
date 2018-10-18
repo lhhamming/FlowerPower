@@ -25,10 +25,11 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Artikelen bestellen", "Index", "Product")</li>
                     @if (User.IsInRole("Manager"))
                     {
                         <li>@Html.ActionLink("Register een medewerker", "RegisterMedewerker", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-                        <li>@Html.ActionLink("Artikelen ", "Index", "artikels")</li>
+                        <li>@Html.ActionLink("Nieuwe artikel toevoegen ", "Index", "artikels")</li>
                         <li>@Html.ActionLink("Rollen ", "Index", "Roles")</li>
                         <li>@Html.ActionLink("Vestegingen ", "Index", "vestigings")</li>
                         <li>@Html.ActionLink("Bestellingen ", "Index", "bestelling")</li>

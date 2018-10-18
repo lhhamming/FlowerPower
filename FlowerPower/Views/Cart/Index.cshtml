@@ -33,7 +33,7 @@
             <td>@item.Product.artikelnaam</td>
             @if (item.Product.image == null)
             {
-                <td><img src="~/images/artikels/imgnotfound.png" /></td>
+                <td><img src="~/images/artikels/imgnotfound.png" alt="ImageNotFound" width="100" height="100" /></td>
             }
             else
             {
@@ -56,6 +56,7 @@
         </tr>
     </table>
     <br>
+    <a>@Url.Action("PlaceOrder", "bestelling", new { @items = cart }) Plaats uw bestelling</a>
     <a href="@Url.Action("Index", "Product")">Continue Shopping</a>
 
 </body>
