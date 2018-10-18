@@ -56,7 +56,7 @@
         </tr>
     </table>
     <br>
-    <a>@Url.Action("PlaceOrder", "bestelling", new { @items = cart }) Plaats uw bestelling</a>
+    <a>@Html.ActionLink("Order", "Order")</a>
     <a href="@Url.Action("Index", "Product")">Continue Shopping</a>
 
 </body>

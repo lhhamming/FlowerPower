@@ -1,17 +1,17 @@
 ﻿@model FlowerPower.Models.RegisterKlantViewModel
 
 @{
-    ViewBag.Title = "RegisterMedewerker";
+    ViewBag.Title = "Register Klant";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Register Medewerker</h2>
+<h2>Register Klant</h2>
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
 <div class="form-horizontal">
-    <h4>medewerker</h4>
+    <h4>Klant</h4>
     <hr />
 
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })

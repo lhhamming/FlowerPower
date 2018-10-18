@@ -65,6 +65,14 @@ namespace FlowerPower
                 roleManager.Create(role);
 
             }
+
+            if (!roleManager.RoleExists("Klant"))
+            {
+                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                role.Name = "Klant";
+                roleManager.Create(role);
+
+            }
         }
     }
 }

@@ -193,24 +193,27 @@ namespace FlowerPower.Controllers
                 //Alle informatie voor het maken van een medewerker
                 if(model.TussenVoegsel != "")
                 {
-                    string uName = model.FirstName + model.LastName;
+                    //string uName = model.FirstName + model.LastName;
 
-                    user = new ApplicationUser { UserName = uName, Email = model.UserEmail };
+                    user = new ApplicationUser { UserName = model.UserEmail, Email = model.UserEmail };
                 }
                 else
                 {
-                    string uName = model.FirstName + model.TussenVoegsel + model.LastName;
+                    //string uName = model.FirstName + model.TussenVoegsel + model.LastName;
 
-                    user = new ApplicationUser { UserName = uName, Email = model.UserEmail };
+                    user = new ApplicationUser { UserName = model.UserEmail, Email = model.UserEmail };
                 }
 
                 //De gebruiker toevegen aan de Role Medewerker omdat deze gemaakt is in de sectie 
                 //Registreer medewerker
-                UserManager.AddToRole(user.Id, "Medewerker");
+                
 
                 var result = await UserManager.CreateAsync(user, model.Password);
+
+                
                 if (result.Succeeded)
                 {
+
                     var Medewerker = new medewerker { };
                     if (model.TussenVoegsel != "")
                     {
@@ -221,8 +224,7 @@ namespace FlowerPower.Controllers
                     {
                         Medewerker = new medewerker { voorletters = model.FirstName, tussenvoegsels = model.TussenVoegsel, achternaam = model.LastName, vestigingsid = model.vestigingsid, actief = false, AspNetUserID = user.Id};
                     }
-
-
+                    UserManager.AddToRole(user.Id, "Medewerker");
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -233,7 +235,9 @@ namespace FlowerPower.Controllers
                         try
                         {
                         db.medewerkers.Add(Medewerker);
+                        
                         db.SaveChanges();
+                        
                         }
                         catch (DbEntityValidationException e)
                         {
@@ -261,7 +265,7 @@ namespace FlowerPower.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
+        [AllowAnonymous]
         public ActionResult RegisterKlant()
         {
             return View();
@@ -278,19 +282,18 @@ namespace FlowerPower.Controllers
                 //Alle informatie voor het maken van een medewerker
                 if (model.TussenVoegsel != "")
                 {
-                    string uName = model.FirstName + model.LastName;
+                    //string uName = model.FirstName + model.LastName;
 
-                    user = new ApplicationUser { UserName = uName, Email = model.UserEmail };
+                    user = new ApplicationUser { UserName = model.UserEmail, Email = model.UserEmail };
                 }
                 else
                 {
-                    string uName = model.FirstName + model.TussenVoegsel + model.LastName;
+                    //string uName = model.FirstName + model.TussenVoegsel + model.LastName;
 
-                    user = new ApplicationUser { UserName = uName, Email = model.UserEmail };
+                    user = new ApplicationUser { UserName = model.UserEmail, Email = model.UserEmail };
                 }
 
-                //De gebruiker toevegen aan de Role Medewerker omdat deze gemaakt is in de sectie 
-                //Registreer medewerker
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -305,7 +308,9 @@ namespace FlowerPower.Controllers
                         klant = new klant { voorletters = model.FirstName, tussenvoegsels = model.TussenVoegsel, achternaam = model.LastName, adres = model.adres, postcode = model.postode, geboortedatum = model.birthdate, AspNetUserID = user.Id };
                     }
 
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
+                    UserManager.AddToRole(user.Id, "Klant");
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);

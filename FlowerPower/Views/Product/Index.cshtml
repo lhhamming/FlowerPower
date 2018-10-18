@@ -34,19 +34,32 @@
                 <tr>
                     <td>@artikelen.artikelid</td>
                     <td>@artikelen.artikelnaam</td>
-                    @if(artikelen.image == null)
+                    @if (artikelen.image == null)
                     {
-                    <td><img src="~/images/artikels/imgnotfound.png" /></td>
+                        <td><img src="~/images/artikels/imgnotfound.png" /></td>
                     }
                     else
                     {
-                    <td><img src="@Url.Content("~/images/artikels/"+artikelen.image)" alt="Image" width="100" height="100" /></td>
+                        <td><img src="@Url.Content("~/images/artikels/"+artikelen.image)" alt="Image" width="100" height="100" /></td>
                     }
                     <td>@artikelen.prijs</td>
-                    <td><input type="number" name="Quantity" id="quant" min="1" max="100" step="1" value="1"></td>
-                    <td align="center">
-                        <a href="@Url.Action("Buy", "Cart", new { @id = artikelen.artikelid})">Buy Now</a>
-                    </td>
+
+                    @using (Html.BeginForm("Buy", "Cart", new { id = @artikelen.artikelid }, FormMethod.Post, null))
+                    {
+
+                        <td><input type="number" name="quant" id="quant" min="1" max="100" step="1" value="1"></td>
+
+
+
+
+                        <td align="center">
+
+                            <input class="btn btn-primary" type="submit" value="In winkelmand" />
+
+                        </td>
+
+                    }
+
                 </tr>
             }
 

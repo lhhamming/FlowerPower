@@ -18,20 +18,33 @@ namespace FlowerPower.Controllers
         private List<bestelling> BestellingenPerVestiging = new List<bestelling>();
 
         // GET: bestelling
-        [Authorize(Roles = "ApplicatieBeheerder, Manager, Medewerker, Klant")]
+        [Authorize(Roles = "Applicatiebeheerder, Manager, Medewerker, Klant")]
         public ActionResult Index()
         {
             
 
             var user = User.Identity.GetUserId();
-            bool UserAdmin = User.IsInRole("ApplicatieBeheerder");
+            bool UserAdmin = User.IsInRole("Applicatiebeheerder");
             bool UserManager = User.IsInRole("Manager");
             bool UserMedewerker = User.IsInRole("Medewerker");
 
-            //Get the current medewerker
-            
+            if (UserAdmin || UserManager)
+            {
 
-            if (User.IsInRole("Klant"))
+                var result = db.bestellings.ToList();
+                return View(result);
+            }
+            else if (User.IsInRole("Medewerker"))
+            {
+                var CurrentMedewerker = db.medewerkers.Where(m => m.AspNetUserID == user).FirstOrDefault();
+
+                var bList = db.bestellings.Where(b => b.medewerkerid == null && b.statusid == 1 && b.vestigingid == CurrentMedewerker.vestigingsid);
+
+                var result = bList;
+
+                return View(result);
+            }
+            else
             {
 
                 var CurrentKlant = db.klants.Where(k => k.AspNetUserID == user).FirstOrDefault();
@@ -42,22 +55,7 @@ namespace FlowerPower.Controllers
                 return View(result);
             }
 
-            else if (UserAdmin || UserManager)
-            {
-
-                var result = db.bestellings.ToList();
-                return View(result);
-            }
-            else
-            {
-                var CurrentMedewerker = db.medewerkers.Where(m => m.AspNetUserID == user).FirstOrDefault();
-
-                var bList = db.bestellings.Where(b => b.medewerkerid == CurrentMedewerker.medewerkerid && b.statusid == 1);
-
-                var result = bList;
-
-                return View(result);
-            }
+            
             
 
 
@@ -105,14 +103,82 @@ namespace FlowerPower.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult TakeConfirmed(int? id)
         {
-            // TODO: Post medewerker association to bestelling
             var user = User.Identity.GetUserId();
             var CurrentMedewerker = db.medewerkers.Where(m => m.AspNetUserID == user).FirstOrDefault();
 
             bestelling bestelling = db.bestellings.Find(id);
 
             bestelling.medewerkerid = CurrentMedewerker.medewerkerid;
+            bestelling.statusid = 3;
             db.SaveChanges();
+
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Afhalen(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            bestelling bestelling = db.bestellings.Find(id);
+            if (bestelling == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(bestelling);
+        }
+
+        [HttpPost, ActionName("Afhalen")]
+        [ValidateAntiForgeryToken]
+        public ActionResult AfhalenConfirmed(int? id)
+        {
+            var user = User.Identity.GetUserId();
+            var CurrentMedewerker = db.medewerkers.Where(m => m.AspNetUserID == user).FirstOrDefault();
+
+            bestelling bestelling = db.bestellings.Find(id);
+
+            bestelling.medewerkerid = CurrentMedewerker.medewerkerid;
+            bestelling.statusid = 2;
+            db.SaveChanges();
+
+
+            return RedirectToAction("Index");
+        }
+
+        [Authorize(Roles = "Klant")]
+        public ActionResult Annuleren(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            bestelling bestelling = db.bestellings.Find(id);
+            if (bestelling == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(bestelling);
+        }
+
+        [HttpPost, ActionName("Annuleren")]
+        [ValidateAntiForgeryToken]
+        public ActionResult AnnulerenConfirmed(int? id)
+        {
+            
+            bestelling bestelling = db.bestellings.Find(id);
+            if (bestelling.statusid != 4 && bestelling.statusid != 3)
+            {
+                bestelling.statusid = 4;
+                db.SaveChanges();
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }    
 
 
             return RedirectToAction("Index");
@@ -233,6 +299,7 @@ namespace FlowerPower.Controllers
         }
 
         // GET: bestelling/Delete/5
+        // TODO: change status instead of del.
         public ActionResult Delete(int? id)
         {
             if (id == null)
