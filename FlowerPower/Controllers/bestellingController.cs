@@ -167,6 +167,13 @@ namespace FlowerPower.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public ActionResult PlaceOrder()
+        {
+
+            return Index();
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
