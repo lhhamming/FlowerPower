@@ -20,41 +20,111 @@ namespace FlowerPower.Controllers
         // GET: bestelling
         public ActionResult Index()
         {
+            
+
             var user = User.Identity.GetUserId();
             bool UserAdmin = User.IsInRole("ApplicatieBeheerder");
             bool UserManager = User.IsInRole("Manager");
             bool UserMedewerker = User.IsInRole("Medewerker");
-            //Get the current medewerker
-            var CurrentMedewerker = db.medewerkers.Where(m => m.AspNetUserID == user);
 
-            if(UserAdmin  || UserManager)
+            //Get the current medewerker
+            
+
+            if (User.IsInRole("Klant"))
             {
-                BestellingenPerVestiging = db.bestellings.ToList();
+
+                var CurrentKlant = db.klants.Where(k => k.AspNetUserID == user).FirstOrDefault();
+
+                var bList = db.bestellings.Where(m => m.klantid == CurrentKlant.klantid);
+
+                var result = bList;
+                return View(result);
+            }
+
+            else if (UserAdmin || UserManager)
+            {
+
+                var result = db.bestellings.ToList();
+                return View(result);
             }
             else
             {
-                if (UserMedewerker)
-                {
-                    //De gebruiker is een klant of een medewerker
-                    foreach (var Bestelling in db.bestellings.ToList())
-                    {
-                        if (Bestelling.vestiging.vestigingsid == CurrentMedewerker.First().vestigingsid)
-                        {
-                            BestellingenPerVestiging.Add(Bestelling);
-                        }
-                    }
-                }
-                else
-                {
+                var CurrentMedewerker = db.medewerkers.Where(m => m.AspNetUserID == user).FirstOrDefault();
 
-                }
+                var bList = db.bestellings.Where(b => b.medewerkerid == CurrentMedewerker.medewerkerid && b.statusid == 1);
+
+                var result = bList;
+
+                return View(result);
+            }
+            
+
+
+            //else
+            //{
+            //    if (UserMedewerker)
+            //    {
+            //        //De gebruiker is een klant of een medewerker
+            //        foreach (var Bestelling in db.bestellings.ToList())
+            //        {
+            //            if (Bestelling.vestiging.vestigingsid == CurrentMedewerker.First().vestigingsid)
+            //            {
+            //                BestellingenPerVestiging.Add(Bestelling);
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+
+            //    }
                 
 
+            //}
+        }
+
+        // GET: bestelling/Take/5
+
+        // TODO: Authorization for medewerker/ View
+        public ActionResult Take(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            bestelling bestelling = db.bestellings.Find(id);
+            if (bestelling == null)
+            {
+                return HttpNotFound();
             }
 
-
-            return View(BestellingenPerVestiging);
+            return View(bestelling);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult TakeConfirmed(int? id)
+        {
+            // TODO: Post medewerker association to bestelling
+
+            return RedirectToAction("Index");
+        }
+
+        // GET: bestelling/Factuur/5
+        public ActionResult Factuur(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            bestelling bestelling = db.bestellings.Find(id);
+            if (bestelling == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(bestelling);
+        }
+
 
         // GET: bestelling/Details/5
         public ActionResult Details(int? id)
