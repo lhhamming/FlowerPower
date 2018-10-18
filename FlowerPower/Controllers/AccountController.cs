@@ -203,7 +203,11 @@ namespace FlowerPower.Controllers
 
                     user = new ApplicationUser { UserName = uName, Email = model.UserEmail };
                 }
-                
+
+                //De gebruiker toevegen aan de Role Medewerker omdat deze gemaakt is in de sectie 
+                //Registreer medewerker
+                UserManager.AddToRole(user.Id, "Medewerker");
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

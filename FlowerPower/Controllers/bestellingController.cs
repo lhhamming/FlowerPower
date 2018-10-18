@@ -21,15 +21,37 @@ namespace FlowerPower.Controllers
         public ActionResult Index()
         {
             var user = User.Identity.GetUserId();
+            bool UserAdmin = User.IsInRole("ApplicatieBeheerder");
+            bool UserManager = User.IsInRole("Manager");
+            bool UserMedewerker = User.IsInRole("Medewerker");
+            //Get the current medewerker
             var CurrentMedewerker = db.medewerkers.Where(m => m.AspNetUserID == user);
 
-            foreach (var Bestelling in db.bestellings.ToList())
+            if(UserAdmin  || UserManager)
             {
-                if(Bestelling.vestiging.vestigingsid == CurrentMedewerker.First().vestigingsid)
-                {
-                    BestellingenPerVestiging.Add(Bestelling);
-                }
+                BestellingenPerVestiging = db.bestellings.ToList();
             }
+            else
+            {
+                if (UserMedewerker)
+                {
+                    //De gebruiker is een klant of een medewerker
+                    foreach (var Bestelling in db.bestellings.ToList())
+                    {
+                        if (Bestelling.vestiging.vestigingsid == CurrentMedewerker.First().vestigingsid)
+                        {
+                            BestellingenPerVestiging.Add(Bestelling);
+                        }
+                    }
+                }
+                else
+                {
+
+                }
+                
+
+            }
+
 
             return View(BestellingenPerVestiging);
         }
