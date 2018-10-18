@@ -57,14 +57,35 @@
             @Html.DisplayFor(modelItem => item.medewerker.voorletters)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.status.status1)
+            @if (item.status.statusid == 4)
+            {
+                //Laat hem niet zien want hij is geanulleerd.
+            } else if(item.statusid == 2)
+            {
+
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => item.status.status1)
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.vestiging.vestigingsnaam)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.bestellingid }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.bestellingid })
+            @if (User.IsInRole("ApplicatieBeheerder") || User.IsInRole("Manager"))
+            {
+                @Html.ActionLink("Edit", "Edit", new { id = item.bestellingid })
+                @Html.ActionLink("Delete", "Delete", new { id = item.bestellingid })
+            }
+            else if (User.IsInRole("Medewerker"))
+            {
+                <button class="btn btn-primary" onclick="location.href = '@Url.Action("Afgehandeld", new {id = item.bestellingid})';return false;">Zet als Afgehandeld</button>
+            }
+            else
+            {
+                <button class="btn btn-primary" onclick="location.href = '@Url.Action("Delete", new {id = item.bestellingid})';return false;">Annuleer uw bestelling</button>
+            }
         </td>
     </tr>
 }

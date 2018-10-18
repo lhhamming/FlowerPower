@@ -261,6 +261,90 @@ namespace FlowerPower.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
+        public ActionResult RegisterKlant()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterKlant(RegisterKlantViewModel model)
+        {
+            var user = new ApplicationUser { };
+            if (ModelState.IsValid)
+            {
+                //Alle informatie voor het maken van een medewerker
+                if (model.TussenVoegsel != "")
+                {
+                    string uName = model.FirstName + model.LastName;
+
+                    user = new ApplicationUser { UserName = uName, Email = model.UserEmail };
+                }
+                else
+                {
+                    string uName = model.FirstName + model.TussenVoegsel + model.LastName;
+
+                    user = new ApplicationUser { UserName = uName, Email = model.UserEmail };
+                }
+
+                //De gebruiker toevegen aan de Role Medewerker omdat deze gemaakt is in de sectie 
+                //Registreer medewerker
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    var klant = new klant { };
+                    if (model.TussenVoegsel != "")
+                    {
+                        klant = new klant { voorletters = model.FirstName, tussenvoegsels = "", achternaam = model.LastName, adres = model.adres, postcode = model.postode, geboortedatum = model.birthdate, AspNetUserID = user.Id };
+
+                    }
+                    else
+                    {
+                        klant = new klant { voorletters = model.FirstName, tussenvoegsels = model.TussenVoegsel, achternaam = model.LastName, adres = model.adres, postcode = model.postode, geboortedatum = model.birthdate, AspNetUserID = user.Id };
+                    }
+
+
+                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    using (DB_A3D6D6_FlowerPowerLuukEntities db = new DB_A3D6D6_FlowerPowerLuukEntities())
+                    {
+                        try
+                        {
+                            db.klants.Add(klant);
+                            db.SaveChanges();
+                        }
+                        catch (DbEntityValidationException e)
+                        {
+                            Exception raise = e;
+                            foreach (var validationErrors in e.EntityValidationErrors)
+                            {
+                                foreach (var validationError in validationErrors.ValidationErrors)
+                                {
+                                    string message = string.Format("{0}:{1}",
+                                        validationErrors.Entry.Entity.ToString(),
+                                        validationError.ErrorMessage);
+                                    // raise a new exception nesting
+                                    // the current instance as InnerException
+                                    raise = new InvalidOperationException(message, raise);
+                                }
+                            }
+                            throw raise;
+                        }
+                    }
+                    return RedirectToAction("Index", "Home");
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
