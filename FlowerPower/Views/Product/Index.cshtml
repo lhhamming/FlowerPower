@@ -35,31 +35,37 @@
                 }
                 else
                 {
-        <div class="col-sm-3" style="margin-top: 50px;">
-            @if (artikelen.image == null)
-            {
-                <img src="~/images/artikels/imgnotfound.png" width="197,5" height="197,5" /><br />
-            }
-            else
-            {
-                <img src="@Url.Content("~/images/artikels/" + artikelen.image)" alt="Image" width="197,5" height="197,5" /><br />
-            }
-            Naam: @artikelen.artikelnaam <br />
-            Prijs: €@artikelprijs <br />
-            @if (User.Identity.IsAuthenticated)
-            {
-            <p>
-                Aantal: <input type="number" name="quant" id="quant" min="1" max="100" step="1" value="1">
-                <center>
-                    <input class="btn btn-primary" type="submit" value="In winkelmand" style="margin-top: 10px;" />
-                </center>
-            </p>
-            }
-            
-        </div>
+                <div class="col-sm-3" style="margin-top: 50px;">
+
+                    @if (artikelen.image == null)
+                    {
+                        <img src="~/images/artikels/imgnotfound.png" width="197,5" height="197,5" /><br />
+                    }
+                    else
+                    {
+                        <img src="@Url.Content("~/images/artikels/" + artikelen.image)" alt="Image" width="197,5" height="197,5" /><br />
+                    }
+
+                    Naam: @artikelen.artikelnaam <br />
+                    Prijs: €@artikelprijs <br />
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            using (Html.BeginForm("Buy", "Cart", new { id = @artikelen.artikelid }, FormMethod.Post, null))
+                            {
+                                    <p>
+                                        Aantal: <input type="number" name="quant" id="quant" min="1" max="100" step="1" value="1">
+                                        <center>
+                                            <input class="btn btn-primary" type="submit" value="In winkelmand" style="margin-top: 10px;" />
+                                        </center>
+                                    </p>
+                            }
+                        }                           
+
+                </div>
                 }
             }
         }
-
+    </div>
 </body>
 </html>
