@@ -398,6 +398,7 @@
     <Content Include="Views\Cart\Order.cshtml" />
     <Content Include="Views\bestelling\Afhalen.cshtml" />
     <Content Include="Views\bestelling\Take.cshtml" />
+    <Content Include="Views\bestelling\Annuleren.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

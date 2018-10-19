@@ -64,10 +64,11 @@
                 <button class="btn btn-primary" onclick="location.href = '@Url.Action("Afhalen", new {id = item.bestellingid})';return false;">Afhaalbaar</button>
                 <button class="btn btn-primary" onclick="location.href = '@Url.Action("Factuur", new { id = item.bestellingid })';return false;">Factuur inzien</button>
                 }
-                    else if (item.statusid != 4 && User.IsInRole("Klant"))
-                    {
+
+                @if (item.statusid != 4 && item.statusid != 3 && User.IsInRole("Klant"))
+                {
                         <button class="btn btn-primary" onclick="location.href = '@Url.Action("Annuleren", new {id = item.bestellingid})';return false;">Annuleer uw bestelling</button>
-                    }
+                }
                 <button class="btn btn-primary" onclick="location.href = '@Url.Action("Factuur", new { id = item.bestellingid })';return false;">Factuur inzien</button>
             </td>
         </tr>
