@@ -14,57 +14,58 @@
 </head>
 <body>
 
-    <h3>Products List</h3>
-    <table cellpadding="2" cellspacing="2" border="1">
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Photo</th>
-            <th>Price</th>
-            <th>Buy</th>
-        </tr>
-        @foreach (artikel artikelen in ViewBag.products)
-        {
-            if (artikelen.actief != true)
+    <h3>Bestellen</h3>
+    <div class="container-fluid">
+        @{
+            string artikelprijs;
+            foreach (artikel artikelen in ViewBag.products)
             {
-                //hij is inactief. Laat hem niet zien
-            }
-            else
-            {
-                <tr>
-                    <td>@artikelen.artikelid</td>
-                    <td>@artikelen.artikelnaam</td>
+                if(artikelen.prijs.ToString().Length == 7)
+                {
+                    artikelprijs = artikelen.prijs.ToString().Substring(0, 5);
+                }
+                else
+                {
+                    artikelprijs = artikelen.prijs.ToString().Substring(0, 4);
+                }
+
+                if (artikelen.actief != true)
+                {
+                    //hij is inactief. Laat hem niet zien
+                }
+                else
+                {
+                <div class="col-sm-3" style="margin-top: 50px;">
+
                     @if (artikelen.image == null)
                     {
-                        <td><img src="~/images/artikels/imgnotfound.png" /></td>
+                        <img src="~/images/artikels/imgnotfound.png" width="197,5" height="197,5" /><br />
                     }
                     else
                     {
-                        <td><img src="@Url.Content("~/images/artikels/"+artikelen.image)" alt="Image" width="100" height="100" /></td>
-                    }
-                    <td>@artikelen.prijs</td>
-
-                    @using (Html.BeginForm("Buy", "Cart", new { id = @artikelen.artikelid }, FormMethod.Post, null))
-                    {
-
-                        <td><input type="number" name="quant" id="quant" min="1" max="100" step="1" value="1"></td>
-
-
-
-
-                        <td align="center">
-
-                            <input class="btn btn-primary" type="submit" value="In winkelmand" />
-
-                        </td>
-
+                        <img src="@Url.Content("~/images/artikels/" + artikelen.image)" alt="Image" width="197,5" height="197,5" /><br />
                     }
 
-                </tr>
+                    Naam: @artikelen.artikelnaam <br />
+                    Prijs: €@artikelprijs <br />
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            using (Html.BeginForm("Buy", "Cart", new { id = @artikelen.artikelid }, FormMethod.Post, null))
+                            {
+                                    <p>
+                                        Aantal: <input type="number" name="quant" id="quant" min="1" max="100" step="1" value="1">
+                                        <center>
+                                            <input class="btn btn-primary" type="submit" value="In winkelmand" style="margin-top: 10px;" />
+                                        </center>
+                                    </p>
+                            }
+                        }                           
+
+                </div>
+                }
             }
-
         }
-    </table>
-
+    </div>
 </body>
 </html>
