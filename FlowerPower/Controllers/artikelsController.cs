@@ -66,7 +66,6 @@ namespace FlowerPower.Controllers
                 artikel.image = pic;
 
             }
-
             
 
             if (ModelState.IsValid)
@@ -99,10 +98,32 @@ namespace FlowerPower.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "artikelid,artikelnaam,prijs,actief,image")] artikel artikel)
+        public ActionResult Edit([Bind(Include = "artikelid,artikelnaam,prijs,actief,image")] artikel artikel, HttpPostedFileBase file)
         {
+            if (file != null)
+            {
+                //string pic = System.IO.Path.GetFileName(file.FileName);
+                //Vind bestandstype extension
+                string type = System.IO.Path.GetExtension(file.FileName);
+                //Maak unieke filenaam
+                string pic = string.Format(@"{0}{1}", DateTime.Now.Ticks, type);
+                string path = System.IO.Path.Combine(
+                                       Server.MapPath("~/images/artikels"), pic);
+                // file is uploaded
+                file.SaveAs(path);
+
+                // Sla image naam op in db record
+                artikel.image = pic;
+
+            }
+            else
+            {
+                artikel.image = artikel.image;
+            }
             if (ModelState.IsValid)
             {
+
+
                 db.Entry(artikel).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

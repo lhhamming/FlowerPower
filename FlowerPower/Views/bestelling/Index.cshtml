@@ -16,16 +16,10 @@
             @Html.DisplayNameFor(model => model.ophaaldatum)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.bestelregelid)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.totaalprijs)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.klant.voorletters)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.medewerker.voorletters)
+            @Html.DisplayNameFor(model => model.klant.achternaam)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.status.status1)
@@ -36,37 +30,50 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.besteldatum)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ophaaldatum)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.bestelregelid)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.totaalprijs)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.klant.voorletters)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.medewerker.voorletters)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.status.status1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.vestiging.vestigingsnaam)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.bestellingid }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.bestellingid })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.besteldatum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ophaaldatum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.klant.voorletters)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.klant.achternaam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.status.status1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.vestiging.vestigingsnaam)
+            </td>
+            <td>
+                @if (User.IsInRole("Applicatiebeheerder") || User.IsInRole("Manager"))
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.bestellingid })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.bestellingid })
+                }
+                else if (User.IsInRole("Medewerker, Manager, Applicatiebeheerder"))
+                {
+                    <button class="btn btn-primary" onclick="location.href = '@Url.Action("Take", new {id = item.bestellingid})';return false;">Zet als Afgehandeld</button>
+                    <button class="btn btn-primary" onclick="location.href = '@Url.Action("Afhalen", new {id = item.bestellingid})';return false;">Afhaalbaar</button>
+                    <button class="btn btn-primary" onclick="location.href = '@Url.Action("Factuur", new { id = item.bestellingid })';return false;">Factuur inzien</button>
+                }
+                else
+                {
+                    @if (item.statusid != 4)
+                    {
+                        <button class="btn btn-primary" onclick="location.href = '@Url.Action("Annuleren", new {id = item.bestellingid})';return false;">Annuleer uw bestelling</button>
+                    }
+
+                    <button class="btn btn-primary" onclick="location.href = '@Url.Action("Factuur", new { id = item.bestellingid })';return false;">Factuur inzien</button>
+                }
+            </td>
+        </tr>
+    }
 
 </table>
