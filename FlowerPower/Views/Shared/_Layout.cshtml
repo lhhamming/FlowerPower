@@ -23,9 +23,10 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav" id="navBarUl">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Bestellen","Index","Product")</li>
                     @if (User.IsInRole("Manager"))
                     {
-                        <li>@Html.ActionLink("Register een medewerker", "RegisterMedewerker", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                        <li>@Html.ActionLink("Registreer een medewerker", "RegisterMedewerker", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
                         <li>@Html.ActionLink("Artikelen ", "Index", "artikels")</li>
                         <li>@Html.ActionLink("Rollen ", "Index", "Roles")</li>
                         <li>@Html.ActionLink("Vestegingen ", "Index", "vestigings")</li>
@@ -38,7 +39,7 @@
                         <li>@Html.ActionLink("Rollen ", "Index", "Roles")</li>
                         <li>@Html.ActionLink("Vestegingen ", "Index", "vestigings")</li>
                         <li>@Html.ActionLink("Bestellingen ", "Index", "bestelling")</li>
-                        <li>@Html.ActionLink("Filliaal Wijzigen", "Index", "AssignFil")</li>
+                        <li>@Html.ActionLink("Filliaal wijzigen", "Index", "AssignFil")</li>
                         <li>@Html.ActionLink("Activiteit", "Index", "Activity")</li>
 
                     }

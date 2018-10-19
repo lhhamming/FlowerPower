@@ -5,27 +5,27 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Bestellingen</h2>
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.besteldatum)
+            Besteldatum
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ophaaldatum)
+            Ophaaldatum
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.klant.voorletters)
+            Voorletters
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.klant.achternaam)
+            Achternaam
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.status.status1)
+            Status
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.vestiging.vestigingsnaam)
+            Vestiging
         </th>
         <th></th>
     </tr>
@@ -52,26 +52,24 @@
                 @Html.DisplayFor(modelItem => item.vestiging.vestigingsnaam)
             </td>
             <td>
-                @if (User.IsInRole("Applicatiebeheerder") || User.IsInRole("Manager"))
+                @*
+        @if (User.IsInRole("Applicatiebeheerder") || User.IsInRole("Manager"))
+        {
+            @Html.ActionLink("Edit", "Edit", new { id = item.bestellingid })
+        }
+                *@
+                @if (User.IsInRole("Applicatiebeheerder") || User.IsInRole("Manager") || User.IsInRole("Medewerker"))
                 {
-                    @Html.ActionLink("Edit", "Edit", new { id = item.bestellingid })
-                    @Html.ActionLink("Delete", "Delete", new { id = item.bestellingid })
+                <button class="btn btn-primary" onclick="location.href = '@Url.Action("Take", new {id = item.bestellingid})';return false;">Zet als Afgehandeld</button>
+                <button class="btn btn-primary" onclick="location.href = '@Url.Action("Afhalen", new {id = item.bestellingid})';return false;">Afhaalbaar</button>
+                <button class="btn btn-primary" onclick="location.href = '@Url.Action("Factuur", new { id = item.bestellingid })';return false;">Factuur inzien</button>
                 }
-                else if (User.IsInRole("Medewerker, Manager, Applicatiebeheerder"))
+                else if (item.statusid != 4)
                 {
-                    <button class="btn btn-primary" onclick="location.href = '@Url.Action("Take", new {id = item.bestellingid})';return false;">Zet als Afgehandeld</button>
-                    <button class="btn btn-primary" onclick="location.href = '@Url.Action("Afhalen", new {id = item.bestellingid})';return false;">Afhaalbaar</button>
-                    <button class="btn btn-primary" onclick="location.href = '@Url.Action("Factuur", new { id = item.bestellingid })';return false;">Factuur inzien</button>
+                <button class="btn btn-primary" onclick="location.href = '@Url.Action("Annuleren", new {id = item.bestellingid})';return false;">Annuleer uw bestelling</button>
                 }
-                else
-                {
-                    @if (item.statusid != 4)
-                    {
-                        <button class="btn btn-primary" onclick="location.href = '@Url.Action("Annuleren", new {id = item.bestellingid})';return false;">Annuleer uw bestelling</button>
-                    }
 
-                    <button class="btn btn-primary" onclick="location.href = '@Url.Action("Factuur", new { id = item.bestellingid })';return false;">Factuur inzien</button>
-                }
+                <button class="btn btn-primary" onclick="location.href = '@Url.Action("Factuur", new { id = item.bestellingid })';return false;">Factuur inzien</button>
             </td>
         </tr>
     }
