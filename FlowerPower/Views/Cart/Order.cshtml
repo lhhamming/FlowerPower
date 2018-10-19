@@ -6,37 +6,57 @@
 
 <h2>Bestelling plaatsen</h2>
 
+
 @using (Html.BeginForm("Order", "Cart", FormMethod.Post,
                         new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            <label class="control-label col-md-2">Vestiging</label>
-            <div class="col-md-10">
-                @Html.DropDownList("vestigingid", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.vestigingid, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Ophaaldatum</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ophaaldatum, new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "datepicker", @autocomplete = "off" } })
-                @Html.ValidationMessageFor(model => model.ophaaldatum, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Bestelling plaatsen" class="btn btn-default" />
-            </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Vestiging</label>
+        <div class="col-md-10">
+            @Html.DropDownList("vestigingid", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.vestigingid, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    <script type="text/javascript">
+        function checkDate() {
+            $("#errorMsg").remove();
+            $('#submitBtn').removeAttr('disabled');
+            var dateString = document.getElementById('datepicker').value;
+            var myDate = new Date(dateString);
+            var today = new Date();
+            if (myDate < today) {
+                $('#datepicker').after('<p id="errorMsg" style="color: red;">Voer een datum in de toekomst in!</p>');
+                $('#submitBtn').attr('disabled', 'disabled');
+                return false;
+            }
+            return true;
+        }
+    </script>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Ophaaldatum</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ophaaldatum, new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "datepicker", @autocomplete = "off", @onchange = "checkDate();"}})
+            @Html.ValidationMessageFor(model => model.ophaaldatum, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input id="submitBtn" type="submit" value="Bestelling plaatsen" class="btn btn-default" />
+        </div>
+    </div>
+</div>
 }
 
 <div>
