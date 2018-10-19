@@ -65,7 +65,7 @@
                 }
                 else
                 {
-                    @if (item.statusid != 4)
+                    if (item.statusid != 4 && User.IsInRole("Klant"))
                     {
                         <button class="btn btn-primary" onclick="location.href = '@Url.Action("Annuleren", new {id = item.bestellingid})';return false;">Annuleer uw bestelling</button>
                     }
