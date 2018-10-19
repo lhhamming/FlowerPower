@@ -22,28 +22,31 @@ namespace FlowerPower.Controllers
         public ActionResult Index()
         {
             
-
+            // Get user id
             var user = User.Identity.GetUserId();
+            // True/False variables depending on role
             bool UserAdmin = User.IsInRole("Applicatiebeheerder");
             bool UserManager = User.IsInRole("Manager");
             bool UserMedewerker = User.IsInRole("Medewerker");
-
+            // Show all bestellings if Applicatiebeheerder or Manager
             if (UserAdmin || UserManager)
             {
 
                 var result = db.bestellings.ToList();
                 return View(result);
             }
+            // Show only unfinished orders of employee vestiging.
             else if (User.IsInRole("Medewerker"))
             {
                 var CurrentMedewerker = db.medewerkers.Where(m => m.AspNetUserID == user).FirstOrDefault();
 
-                var bList = db.bestellings.Where(b => b.medewerkerid == null && b.statusid == 1 && b.vestigingid == CurrentMedewerker.vestigingsid);
+                var bList = db.bestellings.Where(b => b.medewerkerid == null && (b.statusid == 1 || b.statusid == 2) && b.vestigingid == CurrentMedewerker.vestigingsid);
 
                 var result = bList;
 
                 return View(result);
             }
+            // Klant can only see own orders
             else
             {
 
@@ -55,35 +58,8 @@ namespace FlowerPower.Controllers
                 return View(result);
             }
 
-            
-            
-
-
-            //else
-            //{
-            //    if (UserMedewerker)
-            //    {
-            //        //De gebruiker is een klant of een medewerker
-            //        foreach (var Bestelling in db.bestellings.ToList())
-            //        {
-            //            if (Bestelling.vestiging.vestigingsid == CurrentMedewerker.First().vestigingsid)
-            //            {
-            //                BestellingenPerVestiging.Add(Bestelling);
-            //            }
-            //        }
-            //    }
-            //    else
-            //    {
-
-            //    }
-                
-
-            //}
         }
-
         // GET: bestelling/Take/5
-
-        // TODO: Authorization for medewerker/ View
         public ActionResult Take(int? id)
         {
             if (id == null)
@@ -98,24 +74,28 @@ namespace FlowerPower.Controllers
 
             return View(bestelling);
         }
-
+        // Set order to finished
+        // POST: Take/5
         [HttpPost, ActionName("Take")]
         [ValidateAntiForgeryToken]
         public ActionResult TakeConfirmed(int? id)
         {
+            //Get user id
             var user = User.Identity.GetUserId();
+            //Get current medewerker user
             var CurrentMedewerker = db.medewerkers.Where(m => m.AspNetUserID == user).FirstOrDefault();
-
+            //Find current bestelling
             bestelling bestelling = db.bestellings.Find(id);
-
+            //Set employee that marked the bestelling as finished
             bestelling.medewerkerid = CurrentMedewerker.medewerkerid;
+            //Set finished status
             bestelling.statusid = 3;
             db.SaveChanges();
 
 
             return RedirectToAction("Index");
         }
-
+        // GET: Afhalen/5
         public ActionResult Afhalen(int? id)
         {
             if (id == null)
@@ -130,7 +110,7 @@ namespace FlowerPower.Controllers
 
             return View(bestelling);
         }
-
+        // POST: Afhalen/5
         [HttpPost, ActionName("Afhalen")]
         [ValidateAntiForgeryToken]
         public ActionResult AfhalenConfirmed(int? id)
@@ -170,6 +150,7 @@ namespace FlowerPower.Controllers
         {
             
             bestelling bestelling = db.bestellings.Find(id);
+            //Change status to canceled if not canceled or finished
             if (bestelling.statusid != 4 && bestelling.statusid != 3)
             {
                 bestelling.statusid = 4;
@@ -199,7 +180,7 @@ namespace FlowerPower.Controllers
 
             PDFMaker PDFMaker = new PDFMaker();
             byte[] abytes = PDFMaker.PreparePDF(bestelling);
-
+            // Create pdf file from bestelling data
             return File(abytes, "application/pdf");
         }
 
