@@ -35,16 +35,24 @@ namespace FlowerPower.Controllers
                 var result = db.bestellings.ToList();
                 return View(result);
             }
-            // Show only unfinished orders of employee vestiging.
+            // Show only unfinished orders of employee vestiging if employee is active
             else if (User.IsInRole("Medewerker"))
             {
                 var CurrentMedewerker = db.medewerkers.Where(m => m.AspNetUserID == user).FirstOrDefault();
+                if(CurrentMedewerker.actief == true)
+                {
+                    var bList = db.bestellings.Where(b => b.medewerkerid == null && (b.statusid == 1 || b.statusid == 2) && b.vestigingid == CurrentMedewerker.vestigingsid);
 
-                var bList = db.bestellings.Where(b => b.medewerkerid == null && (b.statusid == 1 || b.statusid == 2) && b.vestigingid == CurrentMedewerker.vestigingsid);
+                    var result = bList;
 
-                var result = bList;
+                    return View(result);
+                }
+                else
+                {
+                    return View();
+                }
 
-                return View(result);
+                
             }
             // Klant can only see own orders
             else
@@ -59,6 +67,7 @@ namespace FlowerPower.Controllers
             }
 
         }
+        [Authorize(Roles = "Medewerker")]
         // GET: bestelling/Take/5
         public ActionResult Take(int? id)
         {
@@ -96,6 +105,7 @@ namespace FlowerPower.Controllers
             return RedirectToAction("Index");
         }
         // GET: Afhalen/5
+        [Authorize(Roles = "Medewerker")]
         public ActionResult Afhalen(int? id)
         {
             if (id == null)
