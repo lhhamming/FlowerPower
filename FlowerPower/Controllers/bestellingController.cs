@@ -11,7 +11,6 @@ using Microsoft.AspNet.Identity;
 
 namespace FlowerPower.Controllers
 {
-    [Authorize]
     public class bestellingController : Controller
     {
         private DB_A3D6D6_FlowerPowerLuukEntities db = new DB_A3D6D6_FlowerPowerLuukEntities();
@@ -19,18 +18,38 @@ namespace FlowerPower.Controllers
         private List<bestelling> BestellingenPerVestiging = new List<bestelling>();
 
         // GET: bestelling
+        [Authorize(Roles = "Applicatiebeheerder, Manager, Medewerker, Klant")]
         public ActionResult Index()
         {
             
-
+            // Get user id
             var user = User.Identity.GetUserId();
-            bool UserAdmin = User.IsInRole("ApplicatieBeheerder");
+            // True/False variables depending on role
+            bool UserAdmin = User.IsInRole("Applicatiebeheerder");
             bool UserManager = User.IsInRole("Manager");
             bool UserMedewerker = User.IsInRole("Medewerker");
-
-            if (User.IsInRole("Klant"))
+            // Show all bestellings if Applicatiebeheerder or Manager
+            if (UserAdmin || UserManager)
             {
-                //Klant kan alleen eigen bestellingen zien
+
+                var result = db.bestellings.ToList();
+                return View(result);
+            }
+            // Show only unfinished orders of employee vestiging.
+            else if (User.IsInRole("Medewerker"))
+            {
+                var CurrentMedewerker = db.medewerkers.Where(m => m.AspNetUserID == user).FirstOrDefault();
+
+                var bList = db.bestellings.Where(b => b.medewerkerid == null && (b.statusid == 1 || b.statusid == 2) && b.vestigingid == CurrentMedewerker.vestigingsid);
+
+                var result = bList;
+
+                return View(result);
+            }
+            // Klant can only see own orders
+            else
+            {
+
                 var CurrentKlant = db.klants.Where(k => k.AspNetUserID == user).FirstOrDefault();
 
                 var bList = db.bestellings.Where(m => m.klantid == CurrentKlant.klantid);
@@ -39,38 +58,8 @@ namespace FlowerPower.Controllers
                 return View(result);
             }
 
-            else if (UserAdmin || UserManager)
-            {
-                // Admin of Manager kunnen alle bestellingen zien
-                var result = db.bestellings.ToList();
-                return View(result);
-            }
-            else
-            {
-                // Actieve medewerkers kunnen bestellingen van hun vestiging zien
-                var CurrentMedewerker = db.medewerkers.Where(m => m.AspNetUserID == user).FirstOrDefault();
-
-                if (CurrentMedewerker.actief == true)
-                {
-                    var bList = db.bestellings.Where(b => b.medewerkerid == CurrentMedewerker.medewerkerid && b.statusid == 1);
-
-                    var result = bList;
-
-                    return View(result);
-                }
-                else
-                {
-                    return View();
-                }
-
-            }
-           
         }
-
         // GET: bestelling/Take/5
-
-        // TODO: Authorization for medewerker/ View
-        [Authorize]
         public ActionResult Take(int? id)
         {
             if (id == null)
@@ -85,12 +74,93 @@ namespace FlowerPower.Controllers
 
             return View(bestelling);
         }
-
-        [HttpPost]
+        // Set order to finished
+        // POST: Take/5
+        [HttpPost, ActionName("Take")]
         [ValidateAntiForgeryToken]
         public ActionResult TakeConfirmed(int? id)
         {
-            // TODO: Post medewerker association to bestelling
+            //Get user id
+            var user = User.Identity.GetUserId();
+            //Get current medewerker user
+            var CurrentMedewerker = db.medewerkers.Where(m => m.AspNetUserID == user).FirstOrDefault();
+            //Find current bestelling
+            bestelling bestelling = db.bestellings.Find(id);
+            //Set employee that marked the bestelling as finished
+            bestelling.medewerkerid = CurrentMedewerker.medewerkerid;
+            //Set finished status
+            bestelling.statusid = 3;
+            db.SaveChanges();
+
+
+            return RedirectToAction("Index");
+        }
+        // GET: Afhalen/5
+        public ActionResult Afhalen(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            bestelling bestelling = db.bestellings.Find(id);
+            if (bestelling == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(bestelling);
+        }
+        // POST: Afhalen/5
+        [HttpPost, ActionName("Afhalen")]
+        [ValidateAntiForgeryToken]
+        public ActionResult AfhalenConfirmed(int? id)
+        {
+            var user = User.Identity.GetUserId();
+            var CurrentMedewerker = db.medewerkers.Where(m => m.AspNetUserID == user).FirstOrDefault();
+
+            bestelling bestelling = db.bestellings.Find(id);
+
+            bestelling.medewerkerid = CurrentMedewerker.medewerkerid;
+            bestelling.statusid = 2;
+            db.SaveChanges();
+
+
+            return RedirectToAction("Index");
+        }
+
+        [Authorize(Roles = "Klant")]
+        public ActionResult Annuleren(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            bestelling bestelling = db.bestellings.Find(id);
+            if (bestelling == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(bestelling);
+        }
+
+        [HttpPost, ActionName("Annuleren")]
+        [ValidateAntiForgeryToken]
+        public ActionResult AnnulerenConfirmed(int? id)
+        {
+            
+            bestelling bestelling = db.bestellings.Find(id);
+            //Change status to canceled if not canceled or finished
+            if (bestelling.statusid != 4 && bestelling.statusid != 3)
+            {
+                bestelling.statusid = 4;
+                db.SaveChanges();
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }    
+
 
             return RedirectToAction("Index");
         }
@@ -108,7 +178,10 @@ namespace FlowerPower.Controllers
                 return HttpNotFound();
             }
 
-            return View(bestelling);
+            PDFMaker PDFMaker = new PDFMaker();
+            byte[] abytes = PDFMaker.PreparePDF(bestelling);
+            // Create pdf file from bestelling data
+            return File(abytes, "application/pdf");
         }
 
 
@@ -197,7 +270,17 @@ namespace FlowerPower.Controllers
             return View(bestelling);
         }
 
+        public ActionResult Afgehandeld(int id)
+        {
+            
+            bestelling bestelling = db.bestellings.Find(id);
+            //Status ID 2 betekent dat hij klaar is voor het afhalen.
+            bestelling.statusid = 2;
+            return View();
+        }
+
         // GET: bestelling/Delete/5
+        // TODO: change status instead of del.
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -218,8 +301,16 @@ namespace FlowerPower.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             bestelling bestelling = db.bestellings.Find(id);
-            db.bestellings.Remove(bestelling);
-            db.SaveChanges();
+            var vandaag = DateTime.Now;
+            if (bestelling.besteldatum >= vandaag || bestelling.besteldatum <= vandaag)
+            {
+                //Id 4 is geannuleerd.
+                bestelling.statusid = 4;
+                db.SaveChanges();
+                ViewBag.Succes = "Geannuleerd";
+                return RedirectToAction("Index");
+            }
+            ViewBag.Error = "U kunt uw bestelling niet annuleren op de dag dat uw bestelling geweest is.";
             return RedirectToAction("Index");
         }
 

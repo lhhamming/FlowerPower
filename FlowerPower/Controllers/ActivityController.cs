@@ -19,6 +19,7 @@ namespace FlowerPower.Controllers
             return View(db.medewerkers.ToList());
         }
 
+        // GET: Activity/Deactivate
         public ActionResult Deactivate(int? id)
         {
             if (id == null)
@@ -38,9 +39,9 @@ namespace FlowerPower.Controllers
         // POST: Activity/Deactivate/5
         public ActionResult DeactivateConfirm(int? id)
         {
-
+            
             medewerker medewerker = db.medewerkers.Find(id);
-
+            //set actief to false
             medewerker.actief = false;
             db.SaveChanges();
 
@@ -71,7 +72,7 @@ namespace FlowerPower.Controllers
         public ActionResult ActivateConfirm(int? id)
         {
             medewerker medewerker = db.medewerkers.Find(id);
-
+            //Set actief to true
             medewerker.actief = true;
             db.SaveChanges();
 

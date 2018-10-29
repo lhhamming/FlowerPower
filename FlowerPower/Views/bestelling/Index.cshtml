@@ -5,68 +5,73 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Bestellingen</h2>
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.besteldatum)
+            Besteldatum
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ophaaldatum)
+            Ophaaldatum
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.bestelregelid)
+            Voorletters
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.totaalprijs)
+            Achternaam
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.klant.voorletters)
+            Status
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.medewerker.voorletters)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.status.status1)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.vestiging.vestigingsnaam)
+            Vestiging
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.besteldatum)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ophaaldatum)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.bestelregelid)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.totaalprijs)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.klant.voorletters)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.medewerker.voorletters)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.status.status1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.vestiging.vestigingsnaam)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.bestellingid }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.bestellingid })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.besteldatum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ophaaldatum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.klant.voorletters)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.klant.achternaam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.status.status1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.vestiging.vestigingsnaam)
+            </td>
+            <td>
+                @*
+        @if (User.IsInRole("Applicatiebeheerder") || User.IsInRole("Manager"))
+        {
+            @Html.ActionLink("Edit", "Edit", new { id = item.bestellingid })
+        }
+                *@
+                @if (User.IsInRole("Applicatiebeheerder") || User.IsInRole("Manager") || User.IsInRole("Medewerker"))
+                {
+                <button class="btn btn-primary" onclick="location.href = '@Url.Action("Take", new {id = item.bestellingid})';return false;">Zet als Afgehandeld</button>
+                <button class="btn btn-primary" onclick="location.href = '@Url.Action("Afhalen", new {id = item.bestellingid})';return false;">Afhaalbaar</button>
+                <button class="btn btn-primary" onclick="location.href = '@Url.Action("Factuur", new { id = item.bestellingid })';return false;">Factuur inzien</button>
+                }
+
+                @if (item.statusid != 4 && item.statusid != 3 && User.IsInRole("Klant"))
+                {
+                        <button class="btn btn-primary" onclick="location.href = '@Url.Action("Annuleren", new {id = item.bestellingid})';return false;">Annuleer uw bestelling</button>
+                }
+                <button class="btn btn-primary" onclick="location.href = '@Url.Action("Factuur", new { id = item.bestellingid })';return false;">Factuur inzien</button>
+            </td>
+        </tr>
+    }
 
 </table>
