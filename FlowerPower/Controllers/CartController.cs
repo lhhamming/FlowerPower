@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace FlowerPower.Controllers
 {
+    [Authorize]
     public class CartController : Controller
     {
         private DB_A3D6D6_FlowerPowerLuukEntities db = new DB_A3D6D6_FlowerPowerLuukEntities();

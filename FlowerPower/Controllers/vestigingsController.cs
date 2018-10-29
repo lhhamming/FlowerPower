@@ -10,6 +10,7 @@ using FlowerPower.Models;
 
 namespace FlowerPower.Controllers
 {
+    [Authorize(Roles = "Manager, Applicatiebeheerder")]
     public class vestigingsController : Controller
     {
         private DB_A3D6D6_FlowerPowerLuukEntities db = new DB_A3D6D6_FlowerPowerLuukEntities();

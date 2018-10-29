@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 
 namespace FlowerPower.Controllers
 {
+    [Authorize]
     public class bestellingController : Controller
     {
         private DB_A3D6D6_FlowerPowerLuukEntities db = new DB_A3D6D6_FlowerPowerLuukEntities();
@@ -27,12 +28,9 @@ namespace FlowerPower.Controllers
             bool UserManager = User.IsInRole("Manager");
             bool UserMedewerker = User.IsInRole("Medewerker");
 
-            //Get the current medewerker
-            
-
             if (User.IsInRole("Klant"))
             {
-
+                //Klant kan alleen eigen bestellingen zien
                 var CurrentKlant = db.klants.Where(k => k.AspNetUserID == user).FirstOrDefault();
 
                 var bList = db.bestellings.Where(m => m.klantid == CurrentKlant.klantid);
@@ -43,48 +41,36 @@ namespace FlowerPower.Controllers
 
             else if (UserAdmin || UserManager)
             {
-
+                // Admin of Manager kunnen alle bestellingen zien
                 var result = db.bestellings.ToList();
                 return View(result);
             }
             else
             {
+                // Actieve medewerkers kunnen bestellingen van hun vestiging zien
                 var CurrentMedewerker = db.medewerkers.Where(m => m.AspNetUserID == user).FirstOrDefault();
 
-                var bList = db.bestellings.Where(b => b.medewerkerid == CurrentMedewerker.medewerkerid && b.statusid == 1);
+                if (CurrentMedewerker.actief == true)
+                {
+                    var bList = db.bestellings.Where(b => b.medewerkerid == CurrentMedewerker.medewerkerid && b.statusid == 1);
 
-                var result = bList;
+                    var result = bList;
 
-                return View(result);
+                    return View(result);
+                }
+                else
+                {
+                    return View();
+                }
+
             }
-            
-
-
-            //else
-            //{
-            //    if (UserMedewerker)
-            //    {
-            //        //De gebruiker is een klant of een medewerker
-            //        foreach (var Bestelling in db.bestellings.ToList())
-            //        {
-            //            if (Bestelling.vestiging.vestigingsid == CurrentMedewerker.First().vestigingsid)
-            //            {
-            //                BestellingenPerVestiging.Add(Bestelling);
-            //            }
-            //        }
-            //    }
-            //    else
-            //    {
-
-            //    }
-                
-
-            //}
+           
         }
 
         // GET: bestelling/Take/5
 
         // TODO: Authorization for medewerker/ View
+        [Authorize]
         public ActionResult Take(int? id)
         {
             if (id == null)

@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace FlowerPower.Controllers
 {
-    //[Authorize(Roles = "Applicatiebeheerder")]
+    [Authorize(Roles = "Manager, Applicatiebeheerder")]
     public class RolesController : Controller
     {
         ApplicationDbContext context = new ApplicationDbContext();

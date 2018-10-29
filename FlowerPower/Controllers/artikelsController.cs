@@ -11,7 +11,7 @@ using FlowerPower.Models;
 
 namespace FlowerPower.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Manager, Applicatiebeheerder")]
     public class artikelsController : Controller
     {
         private DB_A3D6D6_FlowerPowerLuukEntities db = new DB_A3D6D6_FlowerPowerLuukEntities();
