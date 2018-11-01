@@ -83,12 +83,23 @@
                 }
             }*@
         </dd>
-        @if (User.IsInRole("Medewerker"))
+        @if (User.Identity.IsAuthenticated)
         {
         <dt>Verander uw Achternaam:</dt>
         <dd>
             @Html.ActionLink("Edit", "ChangeLastname")
-        </dd>
+        </dd>        
+            if (User.IsInRole("Medewerker"))
+            {
+
+            }
+            else
+            {
+                <dt>Verander uw Adres en Woonplaats:</dt>
+                <dd>
+                    @Html.ActionLink("Edit", "ChangeAdres")
+                </dd>
+            }
         }
     </dl>
 </div>

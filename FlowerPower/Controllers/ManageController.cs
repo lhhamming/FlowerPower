@@ -100,28 +100,6 @@ namespace FlowerPower.Controllers
             return RedirectToAction("ManageLogins", new { Message = message });
         }
 
-        public ActionResult ChangeLastname()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult ChangeLastname(ChangeLastNameModel model)
-        {
-           
-            if (ModelState.IsValid)
-            {
-                
-                var userid = User.Identity.GetUserId();
-                medewerker user = db.medewerkers.Find(userid);
-                user.achternaam = model.NewLastname;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(model);
-        }
-
         //
         // GET: /Manage/AddPhoneNumber
         public ActionResult AddPhoneNumber()
@@ -181,6 +159,73 @@ namespace FlowerPower.Controllers
                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
             return RedirectToAction("Index", "Manage");
+        }
+
+        public ActionResult ChangeLastName()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeLastName(ChangeLastNameModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (User.IsInRole("Klant"))
+                {
+                    var userId = User.Identity.GetUserId();
+
+                    var CurrentKlant = db.klants.Where(m => m.AspNetUserID == userId).FirstOrDefault();
+
+                    CurrentKlant.achternaam = model.NewLastname;
+                }
+                else if (User.IsInRole("Medewerker"))
+                {
+                    var userId = User.Identity.GetUserId();
+
+                    var CurrentMedewerker = db.medewerkers.Where(m => m.AspNetUserID == userId).FirstOrDefault();
+
+                    CurrentMedewerker.achternaam = model.NewLastname;
+                }
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
+
+
+
+        public ActionResult ChangeAdres()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeAdres(ChangeAdresModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (User.IsInRole("Klant"))
+                {
+                    var userId = User.Identity.GetUserId();
+
+                    var CurrentKlant = db.klants.Where(m => m.AspNetUserID == userId).FirstOrDefault();
+
+                    CurrentKlant.adres = model.Adres;
+                    CurrentKlant.woonplaats = model.Woonplaats;
+                }
+                else if (User.IsInRole("Medewerker"))
+                {
+
+                    RedirectToAction("Index");
+                }
+
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(model);
         }
 
         //
