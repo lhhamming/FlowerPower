@@ -191,4 +191,18 @@ namespace FlowerPower.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
+
+    public class ChangeAdresModel
+    {
+        [Required]
+        [Display (Name = "Adres")]
+        public string Adres { get; set; }
+
+        [Required]
+        [Display (Name = "Woonplaats")]
+        public string Woonplaats { get; set; }
+    }
+
+    
+
 }
