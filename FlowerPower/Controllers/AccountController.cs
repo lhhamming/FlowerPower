@@ -547,12 +547,57 @@ namespace FlowerPower.Controllers
                 }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
+
                 if (result.Succeeded)
                 {
                     result = await UserManager.AddLoginAsync(user.Id, info.Login);
                     if (result.Succeeded)
                     {
+                        var klant = new klant { };
+                        if (model.TussenVoegsel != "")
+                        {
+                            klant = new klant { voorletters = model.FirstName, tussenvoegsels = "", achternaam = model.LastName, adres = model.adres, postcode = model.postode, geboortedatum = model.birthdate, AspNetUserID = user.Id };
+
+                        }
+                        else
+                        {
+                            klant = new klant { voorletters = model.FirstName, tussenvoegsels = model.TussenVoegsel, achternaam = model.LastName, adres = model.adres, postcode = model.postode, geboortedatum = model.birthdate, AspNetUserID = user.Id };
+                        }
+
+
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        UserManager.AddToRole(user.Id, "Klant");
+                        // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                        using (DB_A3D6D6_FlowerPowerLuukEntities db = new DB_A3D6D6_FlowerPowerLuukEntities())
+                        {
+                            try
+                            {
+                                db.klants.Add(klant);
+                                db.SaveChanges();
+                            }
+                            catch (DbEntityValidationException e)
+                            {
+                                Exception raise = e;
+                                foreach (var validationErrors in e.EntityValidationErrors)
+                                {
+                                    foreach (var validationError in validationErrors.ValidationErrors)
+                                    {
+                                        string message = string.Format("{0}:{1}",
+                                            validationErrors.Entry.Entity.ToString(),
+                                            validationError.ErrorMessage);
+                                        // raise a new exception nesting
+                                        // the current instance as InnerException
+                                        raise = new InvalidOperationException(message, raise);
+                                    }
+                                }
+                                throw raise;
+                            }
+                        }
+
                         return RedirectToLocal(returnUrl);
                     }
                 }

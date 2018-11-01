@@ -23,7 +23,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav" id="navBarUl">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Bestellen","Index","Product")</li>
+
                     @if (User.IsInRole("Manager"))
                     {
                         <li>@Html.ActionLink("Registreer een medewerker", "RegisterMedewerker", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
@@ -48,8 +48,14 @@
                     }
                     else if (User.IsInRole("Medewerker"))
                     {
-                        <li>@Html.ActionLink("Bestellingen ", "Index", "bestelling")</li>
+                        <li>@Html.ActionLink("Bestellingen", "Index", "bestelling")</li>
                     }
+                    else if (User.IsInRole("Klant"))
+                    {
+                        <li>@Html.ActionLink("Bestellingen", "Index", "bestelling")</li>
+                        <li>@Html.ActionLink("Boeketen", "Index", "Product")</li>
+                    }
+
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
