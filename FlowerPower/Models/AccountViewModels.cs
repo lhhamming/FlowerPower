@@ -8,6 +8,34 @@ namespace FlowerPower.Models
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Voorletters")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "Tussenvoegsels")]
+        public string TussenVoegsel { get; set; }
+
+        [Required]
+        [Display(Name = "Achternaam")]
+        public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Adres")]
+        public string adres { get; set; }
+
+        [Required]
+        [Display(Name = "Postcode")]
+        public string postode { get; set; }
+
+        [Required]
+        [Display(Name = "Woonplaats")]
+        public string Residence { get; set; }
+
+        [Required]
+        [Display(Name = "geboortedatum")]
+        public System.DateTime birthdate { get; set; }
+
     }
 
     public class ExternalLoginListViewModel
