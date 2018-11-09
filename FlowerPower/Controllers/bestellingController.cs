@@ -152,7 +152,7 @@ namespace FlowerPower.Controllers
 
                     SmtpClient client = new SmtpClient("smtp.gmail.com");
                     client.Port = 587;
-                    client.EnableSsl = false;
+                    client.EnableSsl = true;
 
 
                     //If you need to authenticate
