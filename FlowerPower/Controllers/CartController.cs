@@ -87,20 +87,46 @@ namespace FlowerPower.Controllers
             if (ModelState.IsValid)
             {
                 db.bestellings.Add(bestelling);
+
                 
+
                 //Create a bestelregel for every item in the cart
                 foreach (item item in (List<item>)Session["cart"])
                 {
+
+
+                    var thisBestelRegel = db.bestelregels.Where(b => b.bestelling_bestellingid == bestelling.bestellingid);
+
                     var bestelregel = new bestelregel();
 
-                    bestelregel.artikel_artikelid = item.Product.artikelid;
                     bestelregel.bestelling_bestellingid = bestelling.bestellingid;
-                    bestelregel.aantal = item.Quantity;
-                    db.bestelregels.Add(bestelregel);
+
                     
+
+                    //var foundRegels = thisBestelRegel.Where(b => b.artikel_artikelid == item.Product.artikelid);
+
+                    if (thisBestelRegel.Any(art => art.artikel_artikelid == item.Product.artikelid))
+                    {
+
+                        var currentArtikel = thisBestelRegel.Where(b => b.artikel_artikelid == item.Product.artikelid).FirstOrDefault();
+
+                        currentArtikel.aantal = currentArtikel.aantal + item.Quantity;
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        bestelregel.artikel_artikelid = item.Product.artikelid;
+                        bestelregel.aantal = item.Quantity;
+                        db.bestelregels.Add(bestelregel);
+                        db.SaveChanges();
+                    }
+
+                    
+
+
                 }
                 //Save database changes
-                db.SaveChanges();
+                
                 //Empty cart after placing bestelling
                 EmptyCart();
                 return RedirectToAction("Index", "bestelling", new { area = ""});

@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using FlowerPower.Models;
@@ -120,6 +121,7 @@ namespace FlowerPower.Controllers
 
             return View(bestelling);
         }
+
         // POST: Afhalen/5
         [HttpPost, ActionName("Afhalen")]
         [ValidateAntiForgeryToken]
@@ -130,13 +132,69 @@ namespace FlowerPower.Controllers
 
             bestelling bestelling = db.bestellings.Find(id);
 
+            var klant = db.klants.Where(k => k.klantid == bestelling.klantid).FirstOrDefault();
+
             bestelling.medewerkerid = CurrentMedewerker.medewerkerid;
             bestelling.statusid = 2;
             db.SaveChanges();
 
 
+                // verzend een email
+                var gebruikerd = from i in db.bestellings where i.bestellingid == bestelling.bestellingid select i;
+                
+                
+
+                try
+                {
+                    string gebruiker = User.Identity.Name;
+
+
+
+                    SmtpClient client = new SmtpClient("smtp.gmail.com");
+                    client.Port = 587;
+                    client.EnableSsl = false;
+
+
+                    //If you need to authenticate
+                    client.Credentials = new NetworkCredential("fpower942811@gmail.com", "Flowerpower!123");
+                    MailMessage mailMessage = new MailMessage();
+                    MailAddress mailAddress = new MailAddress("fpower942811@gmail.com");
+                    mailMessage.From = mailAddress;
+                    mailMessage.To.Add(klant.AspNetUser.Email);
+                    mailMessage.Subject = "Bevestiging boeking " + bestelling.bestellingid;
+                    mailMessage.Body = "Beste " + gebruikerd.FirstOrDefault().klant.voorletters + " " + gebruikerd.FirstOrDefault().klant.achternaam + ",\n\n" +
+                        "Hartelijk dank voor uw bestelling bij flowerpower. Wij willen doormiddel van deze mail u informeren dat u uw bestelling kunt ophalen.\n" +
+                        "Hieronder hebben we uw bestellingsdetails:\n\n" +
+                        "" +
+                        "besteldatum: " + bestelling.besteldatum.ToString() + "\n" +
+                        "ophaaldatum: " + bestelling.ophaaldatum.ToString() + "\n" +
+                        "ophaal locatie: " + bestelling.vestiging.vestigingsadres + " ," + bestelling.vestiging.vestigingsplaats + " ," + bestelling.vestiging.vestigingspostcode +  "\n" +
+                        "\n" +
+                        "Wij hopen hiermee u voldoende geinformeerd te hebben.\n\n\n" +
+                        "" +
+                        "" +
+                        "Met vriendelijke groet,\n\n" +
+                        "" +
+                        "" +
+                        "Flower Power";
+
+
+                    client.Send(mailMessage);
+                }
+                catch (Exception ex)
+                {
+
+
+                }
+
+
+            
+
             return RedirectToAction("Index");
         }
+
+        
+
 
         [Authorize(Roles = "Klant")]
         public ActionResult Annuleren(int? id)

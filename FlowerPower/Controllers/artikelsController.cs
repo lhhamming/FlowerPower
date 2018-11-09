@@ -132,30 +132,30 @@ namespace FlowerPower.Controllers
         }
 
         // GET: artikels/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            artikel artikel = db.artikels.Find(id);
-            if (artikel == null)
-            {
-                return HttpNotFound();
-            }
-            return View(artikel);
-        }
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    artikel artikel = db.artikels.Find(id);
+        //    if (artikel == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(artikel);
+        //}
 
-        // POST: artikels/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            artikel artikel = db.artikels.Find(id);
-            db.artikels.Remove(artikel);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        //// POST: artikels/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    artikel artikel = db.artikels.Find(id);
+        //    db.artikels.Remove(artikel);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
 
         protected override void Dispose(bool disposing)
         {
