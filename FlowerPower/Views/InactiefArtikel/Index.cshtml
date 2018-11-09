@@ -1,0 +1,47 @@
+﻿@model IEnumerable<FlowerPower.Models.artikel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lijst van inactieve items</h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.artikelnaam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.prijs)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.actief)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        if (item.actief != true)
+        {
+            //Het item is inactief, dus we laten hem zien
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.artikelnaam)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.prijs)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.actief)
+                </td>
+                <td></td>
+            </tr>
+        }
+        else
+        {
+            //Nu laten we hem niet zien want het item is inactief.
+        }
+    }
+
+</table>
